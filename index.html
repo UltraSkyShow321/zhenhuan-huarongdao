@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>甄嬛传 · 深宫华容道</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏮</text></svg>">
+<style>
+/* ============ 全局 ============ */
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; }
+body {
+  font-family: "KaiTi", "STKaiti", "Kaiti SC", "楷体", "SimSun", serif;
+  color: var(--text);
+  background:
+    repeating-linear-gradient(90deg, rgba(232,198,106,.028) 0 2px, transparent 2px 90px),
+    repeating-linear-gradient(0deg, rgba(232,198,106,.022) 0 2px, transparent 2px 90px),
+    radial-gradient(ellipse at 50% -8%, #6e241a 0%, #3a120d 48%, #200a08 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+}
+:root {
+  --gold: #e8c66a;
+  --gold-bright: #f7e3a0;
+  --gold-dim: #a8873f;
+  --text: #f3e3c3;
+  --text-dim: #c9b08a;
+  --cell: 88px;
+}
+button { font-family: inherit; }
+
+/* ============ 主菜单 ============ */
+.screen { max-width: 720px; margin: 0 auto; padding: 14px 16px 40px; }
+.hidden { display: none !important; }
+
+.title-wrap { text-align: center; padding: 26px 0 6px; }
+.seal {
+  display: inline-block; width: 46px; height: 46px; line-height: 46px;
+  background: #a3231f; border: 2px solid var(--gold);
+  border-radius: 8px; color: var(--gold-bright); font-size: 28px;
+  box-shadow: 0 0 14px rgba(232,198,106,.35), inset 0 0 6px rgba(0,0,0,.35);
+  margin-bottom: 8px;
+}
+h1.title {
+  font-size: clamp(30px, 6vw, 44px); letter-spacing: .35em; text-indent: .35em;
+  color: var(--gold-bright); text-shadow: 0 2px 10px rgba(0,0,0,.6), 0 0 24px rgba(232,198,106,.25);
+  font-weight: normal;
+}
+p.subtitle { color: var(--text-dim); letter-spacing: .3em; text-indent: .3em; font-size: 14px; margin-top: 6px; }
+p.menu-quote { color: var(--text-dim); text-align: center; font-size: 13px; margin-top: 4px; opacity: .8; }
+
+/* 难度页签 */
+#diff-tabs { display: flex; justify-content: center; gap: 10px; margin: 22px 0 14px; }
+.tab {
+  padding: 8px 22px; font-size: 17px; letter-spacing: .2em; cursor: pointer;
+  background: rgba(0,0,0,.25); border: 1px solid var(--gold-dim); border-radius: 999px;
+  color: var(--text-dim); transition: all .15s;
+}
+.tab.active { background: linear-gradient(180deg, #7a241a, #57140f); color: var(--gold-bright); border-color: var(--gold); box-shadow: 0 0 12px rgba(232,198,106,.25); }
+.tab.locked { opacity: .55; }
+
+/* 关卡卡片 */
+#level-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+.card {
+  position: relative; text-align: left; cursor: pointer; padding: 14px 16px;
+  background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(0,0,0,.16));
+  border: 1px solid rgba(232,198,106,.35); border-radius: 12px; color: var(--text);
+  transition: transform .12s, border-color .12s, box-shadow .12s; overflow: hidden;
+}
+.card:hover { border-color: var(--gold); box-shadow: 0 4px 18px rgba(0,0,0,.4), 0 0 12px rgba(232,198,106,.15); transform: translateY(-2px); }
+.card .card-top { display: flex; align-items: baseline; gap: 10px; }
+.card .card-no { font-size: 15px; color: var(--gold); border: 1px solid var(--gold-dim); border-radius: 6px; padding: 0 7px; }
+.card .card-name { font-size: 21px; letter-spacing: .12em; color: var(--gold-bright); }
+.card .card-stars { margin-left: auto; font-size: 15px; letter-spacing: 2px; }
+.card .card-stars .on { color: #ffd75e; text-shadow: 0 0 8px rgba(255,215,94,.7); }
+.card .card-stars .off { color: rgba(255,255,255,.18); }
+.card .card-quote { color: var(--text-dim); font-size: 13px; margin-top: 7px; letter-spacing: .05em; }
+.card .card-ref { color: var(--gold-dim); font-size: 12px; margin-top: 8px; }
+.card.locked { cursor: default; filter: grayscale(.85) brightness(.62); }
+.card.locked:hover { transform: none; box-shadow: none; border-color: rgba(232,198,106,.2); }
+.card .lock-icon { position: absolute; top: 8px; right: 12px; font-size: 22px; }
+.card.best-time { color: var(--text-dim); font-size: 12px; margin-top: 4px; }
+
+#menu-tip { text-align: center; color: var(--text-dim); font-size: 13px; margin-top: 18px; letter-spacing: .08em; }
+
+/* ============ 游戏界面 ============ */
+#screen-game { max-width: 720px; margin: 0 auto; padding: 10px 14px 30px; display: flex; flex-direction: column; align-items: center; }
+.game-header { width: 100%; display: flex; align-items: center; gap: 10px; padding: 4px 2px; }
+.game-header .level-title { flex: 1; text-align: center; font-size: 21px; letter-spacing: .18em; color: var(--gold-bright); text-shadow: 0 1px 6px rgba(0,0,0,.6); }
+.badge { display: inline-block; font-size: 12px; padding: 1px 10px; border-radius: 999px; border: 1px solid; vertical-align: 3px; margin-left: 8px; letter-spacing: .15em; }
+.badge.d0 { color: #9fd08a; border-color: #6f9a5e; background: rgba(80,120,60,.18); }
+.badge.d1 { color: #f0c96a; border-color: #b3923f; background: rgba(160,130,40,.18); }
+.badge.d2 { color: #f0907e; border-color: #b05a48; background: rgba(160,60,40,.18); }
+
+.stats { display: flex; gap: 18px; margin: 8px 0 12px; font-size: 15px; color: var(--text-dim); letter-spacing: .06em; }
+.stats b { color: var(--gold-bright); font-weight: normal; }
+.stats .best { color: #ffd75e; }
+
+.board-wrap { position: relative; display: flex; flex-direction: column; align-items: center; }
+#board {
+  position: relative;
+  background: linear-gradient(180deg, #5c3c1e, #452a12);
+  border: 3px solid var(--gold-dim); border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.55), inset 0 0 24px rgba(0,0,0,.45);
+  display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(5, 1fr);
+  padding: 4px; gap: 0;
+}
+.cell { width: var(--cell); height: var(--cell); border-radius: 4px; }
+.cell.exit { background: rgba(255,215,130,.055); box-shadow: inset 0 0 10px rgba(255,215,130,.12); }
+/* 底部宫门 */
+#arch-wrap { display: flex; flex-direction: column; align-items: center; margin-top: -2px; }
+#exit-arch {
+  width: calc(var(--cell) * 2); height: calc(var(--cell) * .72);
+  border: 2px solid var(--gold); border-bottom: none;
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background: radial-gradient(ellipse at 50% 100%, rgba(255,215,130,.16), rgba(0,0,0,.25));
+  box-shadow: 0 -6px 16px rgba(232,198,106,.12) inset;
+}
+#arch-wrap span { font-size: 12px; color: var(--gold); letter-spacing: .3em; text-indent: .3em; margin-top: 3px; }
+
+/* 棋子 */
+.piece {
+  position: absolute; z-index: 2;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  border: 1.5px solid rgba(233,205,120,.55); border-radius: 8px;
+  background: linear-gradient(160deg, var(--c1), var(--c2));
+  box-shadow: 0 3px 8px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.18);
+  color: #fff8e7; text-shadow: 0 1px 3px rgba(0,0,0,.6);
+  transition: left .11s ease, top .11s ease;
+  cursor: grab; touch-action: none;
+}
+.piece:active { cursor: grabbing; }
+.piece.hero {
+  border: 2.5px solid #f5d878;
+  box-shadow: 0 4px 12px rgba(0,0,0,.5), 0 0 16px rgba(245,216,120,.28), inset 0 1px 0 rgba(255,255,255,.22);
+}
+.piece.selected {
+  border-color: #fff3c4;
+  box-shadow: 0 0 0 2px rgba(255,243,196,.85), 0 0 20px 5px rgba(255,220,120,.5);
+  z-index: 3;
+}
+.p-name { line-height: 1.15; letter-spacing: .06em; }
+.p-role { font-size: calc(var(--cell) * .15); opacity: .92; letter-spacing: .1em; }
+.p-sol { line-height: 1.1; font-size: calc(var(--cell) * .26); letter-spacing: .04em; }
+
+/* 胜利时甄嬛驶出宫门 */
+.piece.hero-out { transition: top .8s ease-in, opacity .8s ease-in; opacity: 0; z-index: 5; }
+
+/* 控制区 */
+.controls { display: flex; align-items: center; gap: 16px; margin-top: 18px; }
+.dpad { display: grid; grid-template-areas: ". up ." "left mid right" ". down ."; gap: 4px; }
+.dpad .up { grid-area: up; } .dpad .down { grid-area: down; }
+.dpad .left { grid-area: left; } .dpad .right { grid-area: right; }
+.dpad .mid { grid-area: mid; }
+.dpad button {
+  width: 46px; height: 46px; font-size: 17px; cursor: pointer;
+  background: linear-gradient(180deg, #7a241a, #57140f);
+  border: 1px solid var(--gold-dim); border-radius: 9px; color: var(--gold);
+  transition: transform .06s, box-shadow .12s;
+}
+.dpad button:active { transform: scale(.93); box-shadow: 0 0 10px rgba(232,198,106,.35) inset; }
+.dpad .mid { background: transparent; border: none; }
+
+.btn {
+  cursor: pointer; padding: 9px 16px; font-size: 15px; letter-spacing: .1em;
+  background: linear-gradient(180deg, #7a241a, #57140f);
+  border: 1px solid var(--gold-dim); border-radius: 9px; color: var(--gold);
+  transition: transform .06s, box-shadow .12s, opacity .12s;
+}
+.btn:hover { box-shadow: 0 0 12px rgba(232,198,106,.25); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: .4; cursor: default; }
+.btn.small { padding: 5px 12px; font-size: 13px; }
+
+.hint { margin-top: 14px; font-size: 12px; color: var(--text-dim); letter-spacing: .1em; text-align: center; }
+
+/* ============ 胜利结算 ============ */
+.overlay {
+  position: fixed; inset: 0; z-index: 50;
+  background: rgba(10,3,2,.78); backdrop-filter: blur(3px);
+  display: flex; align-items: center; justify-content: center; padding: 18px;
+}
+.win-panel {
+  width: min(430px, 94vw); text-align: center; padding: 30px 26px 26px;
+  background: linear-gradient(180deg, #6b2118, #48120c);
+  border: 2px solid var(--gold); border-radius: 16px;
+  box-shadow: 0 18px 50px rgba(0,0,0,.6), 0 0 40px rgba(232,198,106,.15);
+  animation: pop .38s cubic-bezier(.2,1.4,.4,1);
+}
+@keyframes pop { from { transform: scale(.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.win-panel h2 { font-size: 30px; letter-spacing: .4em; text-indent: .4em; color: var(--gold-bright); font-weight: normal; text-shadow: 0 0 18px rgba(232,198,106,.5); }
+.win-panel .win-sub { color: var(--text-dim); font-size: 14px; margin-top: 6px; letter-spacing: .2em; }
+.win-panel .win-quote { color: var(--text); font-size: 16px; margin: 18px 0 14px; letter-spacing: .08em; min-height: 24px; }
+.win-stars { font-size: 38px; letter-spacing: 10px; line-height: 1.3; }
+.win-stars .star { color: rgba(255,255,255,.14); animation: starPop .45s cubic-bezier(.2,1.6,.4,1) backwards; }
+.win-stars .star.on { color: #ffd75e; text-shadow: 0 0 16px rgba(255,215,94,.9); }
+@keyframes starPop { from { transform: scale(0) rotate(-30deg); opacity: 0; } }
+.win-stats { color: var(--text-dim); font-size: 14px; margin-top: 12px; letter-spacing: .06em; }
+.win-stats b { color: var(--gold-bright); font-weight: normal; }
+.win-btns { display: flex; gap: 12px; justify-content: center; margin-top: 22px; flex-wrap: wrap; }
+.win-btns .btn.primary { border-color: var(--gold); color: var(--gold-bright); box-shadow: 0 0 14px rgba(232,198,106,.35); }
+
+/* 音效按钮 */
+#btn-sound {
+  position: fixed; top: 12px; right: 12px; z-index: 60; width: 40px; height: 40px;
+  font-size: 18px; cursor: pointer; border-radius: 50%;
+  background: rgba(0,0,0,.3); border: 1px solid var(--gold-dim); color: var(--gold);
+}
+#btn-sound.off { opacity: .45; filter: grayscale(1); }
+
+/* 角色立绘 */
+.piece .p-avatar { pointer-events: none; }
+.piece .p-row { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 6px; }
+.piece .p-row .p-txt { display: flex; flex-direction: column; align-items: center; }
+
+/* 本关阵容条 */
+.cast { display: flex; flex-wrap: wrap; justify-content: center; gap: 3px 12px; margin-top: 10px; }
+.cast-item { display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text-dim); letter-spacing: .04em; }
+.cast-item svg { width: 24px; height: 24px; }
+
+/* 提示 */
+.hint-text { min-height: 22px; margin-top: 8px; font-size: 15px; color: #ffd75e; letter-spacing: .05em; text-align: center; text-shadow: 0 0 10px rgba(255,215,94,.35); }
+.hint-text:empty { display: none; }
+#hint-arrow {
+  position: absolute; z-index: 6; pointer-events: none;
+  display: flex; align-items: center; justify-content: center;
+  font-size: calc(var(--cell) * .55); color: #fff3c4;
+  text-shadow: 0 0 14px rgba(255,220,120,.95), 0 0 4px rgba(0,0,0,.8);
+  border: 2px dashed rgba(255,243,196,.9); border-radius: 8px;
+  background: rgba(255,220,120,.14);
+  animation: hintPulse 1s ease-in-out infinite;
+}
+#hint-arrow.hidden { display: none; }
+@keyframes hintPulse { 0%, 100% { transform: scale(1); opacity: .8; } 50% { transform: scale(1.07); opacity: 1; } }
+.piece.hint-target { border-color: #ffe9a8; box-shadow: 0 0 14px rgba(255,215,110,.75), 0 3px 8px rgba(0,0,0,.45); }
+
+/* 结算立绘 */
+.win-avatar svg { width: 96px; height: 96px; border-radius: 50%; border: 2px solid var(--gold); box-shadow: 0 0 18px rgba(232,198,106,.35); }
+</style>
+</head>
+<body>
+
+<button id="btn-sound" title="音效开关">🔊</button>
+
+<!-- ============ 主菜单 ============ -->
+<section id="screen-menu" class="screen">
+  <div class="title-wrap">
+    <div class="seal">甄</div>
+    <h1 class="title">深宫华容道</h1>
+    <p class="subtitle">甄嬛传主题 · 助熹贵妃逃出深宫</p>
+  </div>
+  <nav id="diff-tabs"></nav>
+  <div id="level-grid"></div>
+  <p id="menu-tip"></p>
+</section>
+
+<!-- ============ 游戏界面 ============ -->
+<section id="screen-game" class="screen hidden">
+  <div class="game-header">
+    <button class="btn small" id="btn-back">‹ 返回</button>
+    <div class="level-title" id="level-title"></div>
+    <button class="btn small" id="btn-help" title="操作说明">?</button>
+  </div>
+  <div class="stats" id="stats"></div>
+  <div class="hint-text" id="hint-text"></div>
+  <div class="cast" id="cast"></div>
+  <div class="board-wrap">
+    <div id="board"></div>
+    <div id="arch-wrap"><div id="exit-arch"></div><span>宫门 · 出口</span></div>
+  </div>
+  <div class="controls">
+    <button class="btn" id="btn-hint" title="提示最优走法（H）">提示</button>
+    <button class="btn" id="btn-undo">悔棋</button>
+    <div class="dpad">
+      <button class="up" data-dir="0">▲</button>
+      <button class="left" data-dir="2">◀</button>
+      <div class="mid"></div>
+      <button class="right" data-dir="3">▶</button>
+      <button class="down" data-dir="1">▼</button>
+    </div>
+    <button class="btn" id="btn-restart">重开</button>
+  </div>
+  <p class="hint">点选棋子后拖动、方向键或屏幕方向钮移动 · 卡关可按「提示」或 H 键 · 助「甄嬛」抵达下方宫门</p>
+</section>
+
+<!-- ============ 胜利结算 ============ -->
+<div id="overlay-win" class="overlay hidden">
+  <div class="win-panel">
+    <h2>逃出深宫</h2>
+    <div class="win-avatar" id="win-avatar"></div>
+    <p class="win-sub" id="win-sub"></p>
+    <p class="win-quote" id="win-quote"></p>
+    <div class="win-stars" id="win-stars"></div>
+    <p class="win-stats" id="win-stats"></p>
+    <div class="win-btns">
+      <button class="btn primary" id="btn-next">下一关 ›</button>
+      <button class="btn" id="btn-replay">再玩一次</button>
+      <button class="btn" id="btn-to-menu">选关</button>
+    </div>
+  </div>
+</div>
+
+<!-- 操作说明弹层 -->
+<div id="overlay-help" class="overlay hidden">
+  <div class="win-panel">
+    <h2 style="font-size:24px">玩法说明</h2>
+    <p class="win-stats" style="line-height:2; text-align:left; padding:6px 10px">
+      1. 经典华容道：棋子只能沿空格滑动，每次一格。<br>
+      2. 目标：把 2×2 的「甄嬛」移到最下方宫门口。<br>
+      3. 操作：点选棋子后拖动，或用键盘方向键 / 屏幕方向钮移动。<br>
+      4. 卡关可点「提示」或按 H：显示最优走法的下一步与距通关步数。<br>
+      5. 步数越接近「参考步数」，星级越高；Z 悔棋，R 重开。
+    </p>
+    <div class="win-btns"><button class="btn primary" id="btn-help-close">知道了</button></div>
+  </div>
+</div>
+
+<script>
+'use strict';
+/* =====================================================
+   甄嬛传 · 深宫华容道
+   经典华容道规则：4×5 棋盘，1 个 2×2 主角 + 5 个 2×1 武将 + 4 个 1×1 宫人
+   目标：将 2×2 的甄嬛移到底部中央宫门（出口）
+   ===================================================== */
+
+/* ---------------- 音频 ---------------- */
+let audioCtx = null;
+let muted = false;
+function ensureAudio() {
+  if (!audioCtx) { try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) {} }
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+}
+function tone(freq, dur, type, vol, delay) {
+  if (muted || !audioCtx) return;
+  try {
+    const t = audioCtx.currentTime + (delay || 0);
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = type || 'sine'; o.frequency.value = freq;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(vol || 0.1, t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(t); o.stop(t + dur + 0.05);
+  } catch (e) {}
+}
+const SFX = {
+  move:    () => tone(240, 0.06, 'triangle', 0.08),
+  blocked: () => tone(120, 0.07, 'sine', 0.07),
+  select:  () => tone(340, 0.07, 'sine', 0.07),
+  undo:    () => tone(300, 0.08, 'sine', 0.07),
+  win:     () => [523, 659, 784, 1046].forEach((f, i) => tone(f, 0.24, 'sine', 0.11, i * 0.14)),
+};
+
+/* ---------------- 角色数据 ---------------- */
+const CHARS = {
+  hero:         { name: '甄嬛',   role: '熹贵妃', c1: '#a3231f', c2: '#d24a35' },
+  huangshang:   { name: '皇上',   role: '天子',   c1: '#a37c15', c2: '#e0b93e' },
+  huanghou:     { name: '皇后',   role: '中宫',   c1: '#5d2b52', c2: '#93529a' },
+  huafei:       { name: '华妃',   role: '贵妃',   c1: '#a83a5e', c2: '#d8617f' },
+  anlingrong:   { name: '安陵容', role: '安嫔',   c1: '#1f5c45', c2: '#3d8a66' },
+  shenmeizhuang:{ name: '沈眉庄', role: '惠妃',   c1: '#7c5fa0', c2: '#a98fd0' },
+  wentaiyi:     { name: '温太医', role: '太医',   c1: '#2f5f7d', c2: '#4f90b5' },
+  guojunwang:   { name: '果郡王', role: '亲王',   c1: '#2f4f8f', c2: '#5577c4' },
+  jingxi:       { name: '槿汐',   role: '宫人',   c1: '#a85f5f', c2: '#d39a9a' },
+  huanbi:       { name: '浣碧',   role: '宫人',   c1: '#5f8aa8', c2: '#9ac4de' },
+  liuzhu:       { name: '流朱',   role: '宫人',   c1: '#a8875f', c2: '#d4b48a' },
+  yunzi:        { name: '小允',   role: '宫人',   c1: '#7a7a8c', c2: '#b4b4c4' },
+};
+
+const WIN_QUOTES = [
+  '逆风如解意，容易莫摧残。',
+  '这深宫，终究是困不住本宫。',
+  '从此，再无人可困住甄嬛。',
+  '凤凰于飞，翙翙其羽。',
+  '一别经年，终究走出了这四方天地。',
+  '臣妾，回来了。',
+];
+
+/* ---------------- 角色立绘（SVG 生成，古风头像） ----------------
+   每个角色有专属衣袍配色、发饰与眉眼表情，体现人物性格：
+   甄嬛(钿子+红花) 皇上(朝冠+髭须) 皇后(凤冠) 华妃(旗头+牡丹)
+   安陵容(低眉) 沈眉庄(菊花) 温太医(官帽) 果郡王(亲王冠)
+   槿汐/浣碧/流朱(双髻宫花) 小允(太监帽)
+   -------------------------------------------------- */
+const AVATARS = {
+  hero:          { robe:'#a3231f', robe2:'#6e1612', trim:'#e8c66a', skin:'#f6dfc3', hair:'#2b211a', collar:'#f3e3c3', brow:'flat',  eye:'phoenix', mouth:'soft',  head:'dianzi',   flower:'#c8363a' },
+  huangshang:    { robe:'#c99216', robe2:'#8f6a0e', trim:'#f2dd8e', skin:'#f3d9b8', hair:'#1f1712', collar:'#f7efd8', brow:'stern', eye:'dot',     mouth:'flat',  head:'chaoguan', beard:true },
+  huanghou:      { robe:'#5d2b52', robe2:'#3c1a35', trim:'#e8c66a', skin:'#f6dfc3', hair:'#241b16', collar:'#f3e3c3', brow:'flat',  eye:'line',    mouth:'flat',  head:'fengguan' },
+  huafei:        { robe:'#a83a5e', robe2:'#762844', trim:'#e8c66a', skin:'#f6dfc3', hair:'#241b16', collar:'#f3e3c3', brow:'up',    eye:'phoenix', mouth:'smirk', head:'qitou',    flower:'#d23a3a' },
+  anlingrong:    { robe:'#1f5c45', robe2:'#12382a', trim:'#a9c9a0', skin:'#f6dfc3', hair:'#241b16', collar:'#e8f0e0', brow:'down',  eye:'line',    mouth:'pout',  head:'dianzi',   flower:'#8fb98a' },
+  shenmeizhuang: { robe:'#7c5fa0', robe2:'#59428a', trim:'#e8c66a', skin:'#f6dfc3', hair:'#241b16', collar:'#f3e3c3', brow:'flat',  eye:'line',    mouth:'soft',  head:'dianzi',   flower:'#f0e8d8' },
+  wentaiyi:      { robe:'#2f5f7d', robe2:'#1d3f57', trim:'#b8d4e6', skin:'#f6dfc3', hair:'#241b16', collar:'#e8f0f5', brow:'flat',  eye:'line',    mouth:'flat',  head:'guanmao' },
+  guojunwang:    { robe:'#2f4f8f', robe2:'#1c3466', trim:'#e8c66a', skin:'#f6dfc3', hair:'#241b16', collar:'#f3e3c3', brow:'flat',  eye:'dot',     mouth:'soft',  head:'qinwang' },
+  jingxi:        { robe:'#a85f5f', robe2:'#7d4343', trim:'#e8c66a', skin:'#f6dfc3', hair:'#241b16', collar:'#f3e3c3', brow:'flat',  eye:'line',    mouth:'soft',  head:'shuangji' },
+  huanbi:        { robe:'#5f8aa8', robe2:'#3f6682', trim:'#d8e8f2', skin:'#f6dfc3', hair:'#241b16', collar:'#eef4f8', brow:'flat',  eye:'dot',     mouth:'soft',  head:'shuangji' },
+  liuzhu:        { robe:'#a8875f', robe2:'#7d6443', trim:'#f2dd8e', skin:'#f6dfc3', hair:'#241b16', collar:'#f7efd8', brow:'up',    eye:'dot',     mouth:'smile', head:'shuangji' },
+  yunzi:         { robe:'#7a7a8c', robe2:'#55556a', trim:'#d8d8e8', skin:'#f6dfc3', hair:'#241b16', collar:'#eef0f5', brow:'down',  eye:'dot',     mouth:'flat',  head:'taijian' },
+};
+const BROWS = {
+  flat:  '<path d="M41.5 44.8 Q45 43.4 48.5 44.8" stroke="#2a1f18" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M51.5 44.8 Q55 43.4 58.5 44.8" stroke="#2a1f18" stroke-width="1.5" fill="none" stroke-linecap="round"/>',
+  up:    '<path d="M41 45.5 Q45 43.6 49 43" stroke="#2a1f18" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M51 43 Q55 43.6 59 45.5" stroke="#2a1f18" stroke-width="1.5" fill="none" stroke-linecap="round"/>',
+  down:  '<path d="M41.5 43.6 Q45 45 48.5 46.4" stroke="#2a1f18" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M51.5 46.4 Q55 45 58.5 43.6" stroke="#2a1f18" stroke-width="1.5" fill="none" stroke-linecap="round"/>',
+  stern: '<path d="M41 43.5 L47 45.4" stroke="#2a1f18" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M59 43.5 L53 45.4" stroke="#2a1f18" stroke-width="2" fill="none" stroke-linecap="round"/>',
+};
+const EYES = {
+  phoenix: '<path d="M41.5 50.6 Q44 48.7 46.5 50.6 Q44 52.3 41.5 50.6 Z" fill="#2a1f18"/><path d="M53.5 50.6 Q56 48.7 58.5 50.6 Q56 52.3 53.5 50.6 Z" fill="#2a1f18"/><circle cx="43.8" cy="50" r="0.7" fill="#fff"/><circle cx="55.8" cy="50" r="0.7" fill="#fff"/>',
+  line:    '<path d="M42 51.2 Q45 49.4 48 51.2" stroke="#2a1f18" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M52 51.2 Q55 49.4 58 51.2" stroke="#2a1f18" stroke-width="1.6" fill="none" stroke-linecap="round"/>',
+  dot:     '<circle cx="45" cy="50.8" r="1.7" fill="#2a1f18"/><circle cx="55" cy="50.8" r="1.7" fill="#2a1f18"/>',
+};
+const MOUTHS = {
+  soft:  '<path d="M46 60.5 Q50 62.3 54 60.5" stroke="#a05a4a" stroke-width="1.5" fill="none" stroke-linecap="round"/>',
+  smile: '<path d="M45 60 Q50 63.5 55 60" stroke="#a05a4a" stroke-width="1.5" fill="none" stroke-linecap="round"/>',
+  smirk: '<path d="M46.5 60.2 Q50 62.8 54.5 59.6" stroke="#a05a4a" stroke-width="1.5" fill="none" stroke-linecap="round"/>',
+  flat:  '<path d="M46.5 61.2 L53.5 61.2" stroke="#a05a4a" stroke-width="1.5" stroke-linecap="round"/>',
+  pout:  '<path d="M46 62 Q50 60 54 62" stroke="#a05a4a" stroke-width="1.5" fill="none" stroke-linecap="round"/>',
+};
+function headHTML(c) {
+  switch (c.head) {
+    case 'shuangji': // 宫女双髻
+      return `<circle cx="33.5" cy="29.5" r="6.2" fill="${c.hair}"/><circle cx="66.5" cy="29.5" r="6.2" fill="${c.hair}"/>
+        <circle cx="33.5" cy="29.5" r="2.1" fill="#c0392b"/><circle cx="66.5" cy="29.5" r="2.1" fill="#c0392b"/>
+        <circle cx="50" cy="24.5" r="3.2" fill="${c.hair}"/><circle cx="50" cy="24.5" r="1.3" fill="#c0392b"/>`;
+    case 'dianzi': // 钿子
+      return `<path d="M32 38 Q50 20 68 38 L64 36.5 Q50 25 36 36.5 Z" fill="#1d1611"/>
+        <circle cx="38" cy="33" r="1.2" fill="#e8c66a"/><circle cx="44" cy="31" r="1.2" fill="#e8c66a"/><circle cx="50" cy="30.2" r="1.2" fill="#e8c66a"/><circle cx="56" cy="31" r="1.2" fill="#e8c66a"/><circle cx="62" cy="33" r="1.2" fill="#e8c66a"/>
+        <circle cx="61" cy="25" r="3" fill="${c.flower}"/><circle cx="66" cy="27.5" r="2.6" fill="${c.flower}"/><circle cx="56.5" cy="27" r="2.6" fill="${c.flower}"/><circle cx="61" cy="25" r="1.5" fill="#f0d98c"/>`;
+    case 'fengguan': // 皇后凤冠
+      return `<path d="M30 38 Q34 18 50 16 Q66 18 70 38 Q50 28 30 38 Z" fill="#e0b73e"/>
+        <path d="M38 25 L41 15.5 L44 24 Z" fill="#f2d06b"/><path d="M47 22.5 L50 13 L53 22.5 Z" fill="#f2d06b"/><path d="M56 24 L59 15.5 L62 25 Z" fill="#f2d06b"/>
+        <circle cx="50" cy="26.5" r="2.4" fill="#c0392b"/>
+        <circle cx="36.5" cy="32" r="1.3" fill="#fff7e0"/><circle cx="43.5" cy="30" r="1.3" fill="#fff7e0"/><circle cx="50" cy="29.2" r="1.3" fill="#fff7e0"/><circle cx="56.5" cy="30" r="1.3" fill="#fff7e0"/><circle cx="63.5" cy="32" r="1.3" fill="#fff7e0"/>`;
+    case 'qitou': // 华妃旗头 + 牡丹
+      return `<rect x="35" y="12.5" width="30" height="17" rx="3" fill="#1d1611"/>
+        <rect x="35" y="24.5" width="30" height="4" fill="#d9a520"/>
+        <circle cx="50" cy="6" r="3.6" fill="${c.flower}"/><circle cx="44" cy="9.5" r="3.4" fill="${c.flower}"/><circle cx="56" cy="9.5" r="3.4" fill="${c.flower}"/><circle cx="46.5" cy="13.5" r="3.2" fill="${c.flower}"/><circle cx="53.5" cy="13.5" r="3.2" fill="${c.flower}"/><circle cx="50" cy="11.5" r="2" fill="#f0d98c"/>`;
+    case 'chaoguan': // 皇上冬朝冠
+      return `<path d="M31 38 Q32 20 50 18 Q68 20 69 38 Q50 29 31 38 Z" fill="#191310"/>
+        <path d="M31.5 36.5 Q50 28 68.5 36.5" stroke="#c9a63e" stroke-width="2" fill="none"/>
+        <circle cx="50" cy="14.5" r="4.6" fill="#a32926"/><circle cx="50" cy="9.8" r="1.8" fill="#e8c66a"/>`;
+    case 'guanmao': // 太医官帽
+      return `<ellipse cx="50" cy="28.5" rx="13" ry="8.5" fill="#191310"/>
+        <ellipse cx="50" cy="33" rx="15.5" ry="3.8" fill="#211b17"/>
+        <circle cx="50" cy="20.5" r="2.6" fill="#b03a2e"/>`;
+    case 'taijian': // 太监帽（带红穗）
+      return `<ellipse cx="50" cy="28.5" rx="13" ry="8.5" fill="#191310"/>
+        <ellipse cx="50" cy="33" rx="15.5" ry="3.8" fill="#211b17"/>
+        <circle cx="50" cy="20.5" r="2.6" fill="#b03a2e"/>
+        <path d="M50 23 L48.5 27 M50 23 L51.5 27" stroke="#b03a2e" stroke-width="1" fill="none"/>`;
+    case 'qinwang': // 亲王冠
+      return `<path d="M33 37 Q36 21 50 19 Q64 21 67 37 Q50 27.5 33 37 Z" fill="#181310"/>
+        <path d="M38 33 Q40 22 50 20.5 Q60 22 62 33 Z" fill="#c9a63e"/>
+        <circle cx="50" cy="27.5" r="2.6" fill="#b03a2e"/>`;
+  }
+  return '';
+}
+function avatarSVG(p, size) {
+  const c = AVATARS[p.key] || AVATARS.hero;
+  const sw = typeof size === 'number' ? size + 'px' : size;
+  return `<svg class="p-avatar" viewBox="0 0 100 100" style="width:${sw};height:${sw}" aria-hidden="true" focusable="false">` +
+    `<circle cx="50" cy="50" r="49" fill="${c.robe2}"/>` +
+    `<circle cx="50" cy="50" r="49" fill="none" stroke="${c.trim}" stroke-width="1.5" opacity=".8"/>` +
+    `<path d="M30 42 Q27 20 50 18 Q73 20 70 42 Q50 30 30 42 Z" fill="${c.hair}"/>` +
+    `<rect x="45" y="63" width="10" height="12" fill="${c.skin}"/>` +
+    `<path d="M20 100 L25 76 Q50 69 75 76 L80 100 Z" fill="${c.robe}"/>` +
+    `<path d="M20 100 L25 76 Q37 70.5 50 70.5 Q63 70.5 75 76 L80 100 Z" fill="${c.robe2}" opacity=".5"/>` +
+    `<path d="M25 76 Q50 69 75 76 L74 79.5 Q50 73 26 79.5 Z" fill="${c.trim}"/>` +
+    `<circle cx="50" cy="87" r="4.2" fill="${c.trim}"/><circle cx="50" cy="87" r="2.6" fill="${c.robe2}"/>` +
+    `<path d="M44 68.5 L50 78 L56 68.5 L53.2 66.8 L50 73.5 L46.8 66.8 Z" fill="${c.collar}" stroke="${c.trim}" stroke-width="1"/>` +
+    `<ellipse cx="50" cy="50.5" rx="16" ry="18" fill="${c.skin}"/>` +
+    `<path d="M33.5 41 Q33 30.5 50 28.5 Q67 30.5 66.5 41 Q58 33.5 50 33.5 Q42 33.5 33.5 41 Z" fill="${c.hair}"/>` +
+    `<ellipse cx="41.5" cy="56.5" rx="2.6" ry="1.5" fill="#e8a3a3" opacity=".5"/>` +
+    `<ellipse cx="58.5" cy="56.5" rx="2.6" ry="1.5" fill="#e8a3a3" opacity=".5"/>` +
+    (BROWS[c.brow] || '') + (EYES[c.eye] || '') + (MOUTHS[c.mouth] || '') +
+    (c.beard ? `<path d="M44 58 Q46 56.8 48 58 Q50 56.8 52 58 Q54 56.8 56 58" stroke="${c.hair}" stroke-width="1.4" fill="none" stroke-linecap="round"/><path d="M48 61 L50 63.5 L52 61" stroke="${c.hair}" stroke-width="1.4" fill="none" stroke-linecap="round"/>` : '') +
+    headHTML(c) +
+    '</svg>';
+}
+
+/* ---------------- 关卡数据 ----------------
+   hero: 2×2 甄嬛起点 [行, 列]
+   v:    4 个 2×1 竖块起点（与 cast.v 一一对应）
+   h:    1 个 1×2 横块起点
+   s:    4 个 1×1 宫人起点
+   diff: 0 简单 / 1 中等 / 2 困难
+   所有布局均经 BFS 验证可解，最优步数即「参考步数」
+   -------------------------------------------------- */
+const LEVELS_DATA = /*DATA_START*/[
+  { id:'l1',  name:'惊鸿一舞', diff:0, hero:[1,0], v:[[3,1],[3,0],[1,2],[1,3]], h:[0,1], s:[[0,0],[0,3],[3,2],[4,2]],
+    quote:'翩若惊鸿，婉若游龙。',
+    cast:{ v:['huanghou','huafei','anlingrong','shenmeizhuang'], h:'huangshang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
+  { id:'l2',  name:'御前承恩', diff:0, hero:[1,1], v:[[3,1],[3,3],[1,0],[3,2]], h:[0,1], s:[[0,0],[0,3],[3,0],[4,0]],
+    quote:'愿得一心人，白首不相离。',
+    cast:{ v:['huafei','anlingrong','shenmeizhuang','wentaiyi'], h:'guojunwang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
+  { id:'l3',  name:'倚梅园',   diff:0, hero:[1,2], v:[[1,0],[3,1],[3,0],[3,3]], h:[0,1], s:[[0,0],[0,3],[3,2],[4,2]],
+    quote:'逆风如解意，容易莫摧残。',
+    cast:{ v:['huanghou','huafei','wentaiyi','shenmeizhuang'], h:'huangshang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
+  { id:'l4',  name:'碎玉轩',   diff:0, hero:[0,1], v:[[1,0],[1,3],[3,0],[3,3]], h:[3,1], s:[[0,0],[0,3],[2,1],[2,2]],
+    quote:'花开花落自有时，总赖东君主。',
+    cast:{ v:['huanghou','anlingrong','shenmeizhuang','wentaiyi'], h:'guojunwang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
+  { id:'l5',  name:'椒房之宠', diff:1, hero:[1,1], v:[[0,0],[0,3],[2,0],[2,3]], h:[3,1], s:[[0,1],[0,2],[4,0],[4,3]],
+    quote:'椒房恩宠，烈火烹油。',
+    cast:{ v:['huanghou','huafei','anlingrong','shenmeizhuang'], h:'huangshang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
+  { id:'l6',  name:'永寿宫',   diff:1, hero:[0,1], v:[[0,0],[0,3],[3,0],[3,3]], h:[3,1], s:[[2,0],[2,1],[2,2],[2,3]],
+    quote:'宁可枝头抱香死，何曾吹落北风中。',
+    cast:{ v:['huafei','anlingrong','shenmeizhuang','wentaiyi'], h:'guojunwang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
+  { id:'l7',  name:'翊坤宫',   diff:1, hero:[1,1], v:[[1,0],[1,3],[3,0],[3,3]], h:[3,1], s:[[0,1],[0,2],[4,1],[4,2]],
+    quote:'本宫偏要争一争这恩宠。',
+    cast:{ v:['huanghou','huafei','anlingrong','wentaiyi'], h:'huangshang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
+  { id:'l8',  name:'甘露寺',   diff:1, hero:[1,1], v:[[1,0],[1,3],[3,0],[3,3]], h:[3,1], s:[[0,0],[0,1],[4,1],[4,2]],
+    quote:'古寺青灯，岁月静好。',
+    cast:{ v:['huanghou','anlingrong','shenmeizhuang','wentaiyi'], h:'guojunwang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
+  { id:'l9',  name:'凤仪宫',   diff:2, hero:[0,1], v:[[0,0],[0,3],[2,0],[2,3]], h:[3,1], s:[[2,1],[2,2],[4,0],[4,3]],
+    quote:'凤仪天下，众矢之的。',
+    cast:{ v:['huanghou','huafei','anlingrong','shenmeizhuang'], h:'huangshang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
+  { id:'l10', name:'凌云峰',   diff:2, hero:[0,1], v:[[1,0],[1,3],[3,0],[3,3]], h:[2,1], s:[[3,1],[3,2],[4,1],[4,2]],
+    quote:'凌云峰上，风刀霜剑。',
+    cast:{ v:['huafei','anlingrong','shenmeizhuang','wentaiyi'], h:'guojunwang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
+  { id:'l11', name:'养心殿',   diff:2, hero:[0,1], v:[[0,0],[0,3],[2,0],[2,3]], h:[2,1], s:[[3,1],[3,2],[4,0],[4,3]],
+    quote:'雷霆雨露，皆是君恩。',
+    cast:{ v:['huanghou','huafei','wentaiyi','shenmeizhuang'], h:'huangshang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
+  { id:'l12', name:'凤临天下', diff:2, hero:[1,1], v:[[0,0],[0,3],[2,0],[2,3]], h:[3,1], s:[[4,0],[4,1],[4,2],[4,3]],
+    quote:'臣妾，要这天下再无负心之人。',
+    cast:{ v:['huanghou','huafei','anlingrong','shenmeizhuang'], h:'guojunwang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
+]/*DATA_END*/;
+
+const DIFF_NAMES = ['简单', '中等', '困难'];
+const COLS = 4, ROWS = 5;
+const DIRS = [[-1,0],[1,0],[0,-1],[0,1]]; // 上 下 左 右
+const REF_CACHE = {};   // levelId -> 最优步数（BFS 计算后缓存）
+const $ = id => document.getElementById(id);
+
+/* ---------------- 存档 ---------------- */
+const SAVE_KEY = 'zhenhuanHRD_v1';
+let save = { best: {}, unlock: 0, muted: false };
+function loadSave() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (raw) { const d = JSON.parse(raw); if (d && typeof d === 'object') save = Object.assign(save, d); }
+  } catch (e) {}
+  muted = !!save.muted;
+}
+function persistSave() {
+  try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {}
+}
+
+/* ---------------- 棋子构建 ---------------- */
+function makePiece(key, row, col, w, h, idx) {
+  const c = CHARS[key];
+  return { key, name: c.name, role: c.role, c1: c.c1, c2: c.c2,
+           hero: key === 'hero', row, col, w, h, idx, el: null };
+}
+function buildPieces(lv) {
+  const pieces = [];
+  pieces.push(makePiece('hero', lv.hero[0], lv.hero[1], 2, 2, 0));
+  lv.v.forEach(([r, c], i) => pieces.push(makePiece(lv.cast.v[i], r, c, 1, 2, i + 1)));
+  pieces.push(makePiece(lv.cast.h, lv.h[0], lv.h[1], 2, 1, 5));
+  lv.s.forEach(([r, c], i) => pieces.push(makePiece(lv.cast.s[i], r, c, 1, 1, i + 6)));
+  return pieces;
+}
+
+/* ---------------- 求解器（BFS 最短路径） ----------------
+   solvePath：从任意局面出发，返回 { dist, moves }，
+   moves 为最优解法逐步操作序列 [{pi, dir}, ...] */
+function solvePath(pieces, limit) {
+  const n = pieces.length;
+  const keyOf = pos => {
+    const a = pos.slice(6).sort((x, y) => x - y);   // 宫人可互换，排序去重
+    return pos.slice(0, 6).concat(a).join(',');
+  };
+  const start = pieces.map(p => p.row * COLS + p.col);
+  const startKey = keyOf(start);
+  const seen = new Map([[startKey, 0]]);
+  const parent = new Map(); // stateKey -> { prev, pi, dir }
+  const q = [start];
+  let head = 0;
+  while (head < q.length) {
+    const pos = q[head++];
+    const d = seen.get(keyOf(pos));
+    if (pos[0] === 3 * COLS + 1) {           // 甄嬛到达 (3,1)：底部中央出口
+      const moves = [];
+      let k = keyOf(pos);
+      while (k !== startKey) {
+        const pr = parent.get(k);
+        moves.unshift({ pi: pr.pi, dir: pr.dir });
+        k = pr.prev;
+      }
+      return { dist: d, moves };
+    }
+    if (limit && seen.size > limit) return { dist: -1, moves: [] };
+    const occ = new Uint8Array(COLS * ROWS);
+    for (let i = 0; i < n; i++) {
+      const r = (pos[i] / COLS) | 0, c = pos[i] % COLS;
+      for (let a = 0; a < pieces[i].h; a++)
+        for (let b = 0; b < pieces[i].w; b++) occ[(r + a) * COLS + c + b] = 1;
+    }
+    for (let i = 0; i < n; i++) {
+      const r = (pos[i] / COLS) | 0, c = pos[i] % COLS, p = pieces[i];
+      for (let dir = 0; dir < 4; dir++) {
+        const nr = r + DIRS[dir][0], nc = c + DIRS[dir][1];
+        if (nr < 0 || nc < 0 || nr + p.h > ROWS || nc + p.w > COLS) continue;
+        // 平移一格后，只有「前缘」是新占的格子
+        const edge = [];
+        if (dir === 0) for (let b = 0; b < p.w; b++) edge.push((r - 1) * COLS + c + b);
+        if (dir === 1) for (let b = 0; b < p.w; b++) edge.push((r + p.h) * COLS + c + b);
+        if (dir === 2) for (let a = 0; a < p.h; a++) edge.push((r + a) * COLS + c - 1);
+        if (dir === 3) for (let a = 0; a < p.h; a++) edge.push((r + a) * COLS + c + p.w);
+        let free = true;
+        for (const ci of edge) if (occ[ci]) { free = false; break; }
+        if (!free) continue;
+        const np = pos.slice(); np[i] = nr * COLS + nc;
+        const k = keyOf(np);
+        if (seen.has(k)) continue;
+        seen.set(k, d + 1);
+        parent.set(k, { prev: keyOf(pos), pi: i, dir });
+        q.push(np);
+      }
+    }
+  }
+  return { dist: -1, moves: [] }; // 不可解（理论上不会出现）
+}
+function solveOptimal(lv) {
+  return solvePath(buildPieces(lv)).dist;
+}
+
+/* ---------------- 会话状态 ---------------- */
+let S = null;   // { level, pieces, hist, moves, seconds, timerId, selected, ref, started, win }
+let cell = 88;  // 每格像素
+
+function startLevel(lv) {
+  stopTimer();
+  S = {
+    level: lv,
+    pieces: buildPieces(lv),
+    hist: [], trace: [], moves: 0, seconds: 0, timerId: null,
+    selected: null, ref: null, started: false, win: false,
+    hint: null,
+  };
+  hintBusy = false;
+  $('btn-hint').textContent = '提示';
+  $('btn-hint').disabled = false;
+  renderHint();
+  const badge = `<span class="badge d${lv.diff}">${DIFF_NAMES[lv.diff]}</span>`;
+  $('level-title').innerHTML = lv.name + badge;
+  // 本关阵容条（角色立绘）
+  $('cast').innerHTML = S.pieces
+    .map(p => `<span class="cast-item" title="${p.name} · ${p.role}">${avatarSVG(p, 24)}${p.name}</span>`)
+    .join('');
+  setScreen('game');
+  buildBoard();
+  updateStats();
+  SFX.select();
+  // 参考步数异步计算，避免阻塞首帧
+  setTimeout(() => {
+    if (!S || S.level.id !== lv.id) return;
+    if (REF_CACHE[lv.id] == null) REF_CACHE[lv.id] = solveOptimal(lv);
+    S.ref = REF_CACHE[lv.id];
+    updateStats();
+  }, 30);
+}
+
+function setScreen(which) {
+  $('screen-menu').classList.toggle('hidden', which !== 'menu');
+  $('screen-game').classList.toggle('hidden', which !== 'game');
+}
+
+/* ---------------- 计时 ---------------- */
+function startTimer() {
+  S.timerId = setInterval(() => { if (!S || S.win) return; S.seconds++; updateStats(); }, 1000);
+}
+function stopTimer() { if (S && S.timerId) { clearInterval(S.timerId); S.timerId = null; } }
+function fmtTime(s) {
+  const m = (s / 60) | 0, sec = s % 60;
+  return String(m).padStart(2, '0') + ':' + String(sec).padStart(2, '0');
+}
+
+/* ---------------- 移动判定 ---------------- */
+function occupancy(pieces) {
+  const g = new Uint8Array(COLS * ROWS);
+  for (const p of pieces)
+    for (let a = 0; a < p.h; a++)
+      for (let b = 0; b < p.w; b++) g[(p.row + a) * COLS + p.col + b] = 1;
+  return g;
+}
+function canSlide(p, dir, grid) {
+  const r = p.row + DIRS[dir][0], c = p.col + DIRS[dir][1];
+  if (r < 0 || c < 0 || r + p.h > ROWS || c + p.w > COLS) return false;
+  const edge = [];
+  if (dir === 0) for (let b = 0; b < p.w; b++) edge.push((p.row - 1) * COLS + p.col + b);
+  if (dir === 1) for (let b = 0; b < p.w; b++) edge.push((p.row + p.h) * COLS + p.col + b);
+  if (dir === 2) for (let a = 0; a < p.h; a++) edge.push((p.row + a) * COLS + p.col - 1);
+  if (dir === 3) for (let a = 0; a < p.h; a++) edge.push((p.row + a) * COLS + p.col + p.w);
+  for (const ci of edge) if (grid[ci]) return false;
+  return true;
+}
+function tryMove(pi, dir) {
+  if (!S || S.win) return false;
+  const p = S.pieces[pi];
+  if (!canSlide(p, dir, occupancy(S.pieces))) { SFX.blocked(); return false; }
+  S.hist.push(S.pieces.map(x => [x.row, x.col]));
+  S.trace.push({ pi, dir });
+  p.row += DIRS[dir][0]; p.col += DIRS[dir][1];
+  S.moves++;
+  if (!S.started) { S.started = true; startTimer(); }
+  SFX.move();
+  // 提示跟踪：按提示走则前进到下一步，偏离则作废
+  if (S.hint) {
+    const h = S.hint.moves[S.hint.idx];
+    if (h && h.pi === pi && h.dir === dir) {
+      S.hint.idx++;
+      if (S.hint.idx >= S.hint.moves.length) S.hint = null;
+    } else {
+      S.hint = null;
+    }
+  }
+  renderHint();
+  updateBoard();
+  updateStats();
+  if (isWin()) onWin();
+  return true;
+}
+function isWin() { const h = S.pieces[0]; return h.row === 3 && h.col === 1; }
+function undo() {
+  if (!S || S.win || !S.hist.length) return;
+  const prev = S.hist.pop();
+  const t = S.trace.pop();
+  S.pieces.forEach((p, i) => { p.row = prev[i][0]; p.col = prev[i][1]; });
+  S.moves--;
+  // 若撤销的是刚才按提示走的那一步，则提示回退一步
+  if (S.hint && t) {
+    const h = S.hint.moves[S.hint.idx - 1];
+    if (S.hint.idx > 0 && h && h.pi === t.pi && h.dir === t.dir) S.hint.idx--;
+    else S.hint = null;
+  }
+  SFX.undo();
+  renderHint();
+  updateBoard(); updateStats();
+}
+function firstMovable() {
+  const grid = occupancy(S.pieces);
+  for (let i = 0; i < S.pieces.length; i++)
+    for (let d = 0; d < 4; d++)
+      if (canSlide(S.pieces[i], d, grid)) return i;
+  return null;
+}
+
+/* ---------------- 提示系统 ----------------
+   从当前局面 BFS 求最短路径，提示下一步走法 */
+const DIR_NAMES = ['上', '下', '左', '右'];
+const DIR_GLYPHS = ['▲', '▼', '◀', '▶'];
+let hintBusy = false;
+function computeHint() {
+  if (!S || S.win || hintBusy || S.hint) return;
+  hintBusy = true;
+  const lvId = S.level.id;
+  $('btn-hint').textContent = '思考中';
+  $('btn-hint').disabled = true;
+  setTimeout(() => {
+    hintBusy = false;
+    if (!S || S.level.id !== lvId || S.win) {
+      $('btn-hint').textContent = '提示';
+      $('btn-hint').disabled = false;
+      return;
+    }
+    const r = solvePath(S.pieces);
+    S.hint = r.dist > 0 ? { moves: r.moves, idx: 0, dist: r.dist } : null;
+    $('btn-hint').textContent = '提示';
+    $('btn-hint').disabled = false;
+    renderHint();
+    updateBoard();
+  }, 30);
+}
+function renderHint() {
+  if (!S) return;
+  const box = $('hint-text');
+  if (S.hint && !S.win) {
+    const m = S.hint.moves[S.hint.idx];
+    const p = S.pieces[m.pi];
+    box.textContent =
+      `第 ${S.hint.idx + 1} 步提示：移动「${p.name}」向${DIR_NAMES[m.dir]} · 距通关最优 ${S.hint.dist - S.hint.idx} 步`;
+  } else {
+    box.textContent = '';
+  }
+}
+
+/* ---------------- 棋盘渲染 ---------------- */
+function computeCell() {
+  cell = Math.max(30, Math.min(96, Math.floor(Math.min((innerWidth - 30) / 4, (innerHeight - 330) / 5))));
+}
+function isExitCell(idx) {
+  const r = (idx / COLS) | 0, c = idx % COLS;
+  return r >= 3 && c >= 1 && c <= 2;
+}
+function buildBoard() {
+  const board = $('board');
+  computeCell();
+  board.style.width = (COLS * cell + 8) + 'px';
+  board.style.height = (ROWS * cell + 8) + 'px';
+  board.style.setProperty('--cell', cell + 'px');
+  board.innerHTML = '';
+  for (let i = 0; i < COLS * ROWS; i++) {
+    const d = document.createElement('div');
+    d.className = 'cell' + (isExitCell(i) ? ' exit' : '');
+    // 点击空白格取消选中
+    d.addEventListener('pointerdown', () => {
+      if (S && S.selected != null) { S.selected = null; updateBoard(); }
+    });
+    board.appendChild(d);
+  }
+  S.pieces.forEach(p => {
+    const d = document.createElement('div');
+    d.className = 'piece' + (p.hero ? ' hero' : '');
+    d.style.setProperty('--c1', p.c1);
+    d.style.setProperty('--c2', p.c2);
+    d.style.width = (p.w * cell - 4) + 'px';
+    d.style.height = (p.h * cell - 4) + 'px';
+    d.style.left = (p.col * cell + 4) + 'px';
+    d.style.top = (p.row * cell + 4) + 'px';
+    d.innerHTML = pieceInnerHTML(p);
+    d.addEventListener('pointerdown', e => onPieceDown(e, p.idx, d));
+    board.appendChild(d);
+    p.el = d;
+  });
+  // 提示箭头（叠加在棋盘上）
+  const arrow = document.createElement('div');
+  arrow.id = 'hint-arrow';
+  arrow.className = 'hidden';
+  board.appendChild(arrow);
+  // 宫门大小跟随格子
+  const arch = $('exit-arch');
+  arch.style.width = (cell * 2) + 'px';
+  arch.style.height = (cell * 0.72) + 'px';
+  updateBoard();
+}
+function pieceInnerHTML(p) {
+  if (p.hero) {
+    return `${avatarSVG(p, 'calc(var(--cell)*1.18)')}
+            <span class="p-name" style="font-size:calc(var(--cell)*.3)">${p.name}</span>
+            <span class="p-role" style="font-size:calc(var(--cell)*.13)">${p.role}</span>`;
+  }
+  if (p.h === 2) {
+    return `${avatarSVG(p, 'calc(var(--cell)*.82)')}
+            <span class="p-name" style="font-size:calc(var(--cell)*.21)">${p.name}</span>
+            <span class="p-role" style="font-size:calc(var(--cell)*.14)">${p.role}</span>`;
+  }
+  if (p.w === 2) {
+    return `<div class="p-row">
+              ${avatarSVG(p, 'calc(var(--cell)*.58)')}
+              <div class="p-txt">
+                <span class="p-name" style="font-size:calc(var(--cell)*.26)">${p.name}</span>
+                <span class="p-role" style="font-size:calc(var(--cell)*.14)">${p.role}</span>
+              </div>
+            </div>`;
+  }
+  return `${avatarSVG(p, 'calc(var(--cell)*.6)')}
+          <span class="p-name" style="font-size:calc(var(--cell)*.19)">${p.name}</span>`;
+}
+function updateBoard() {
+  if (!S) return;
+  const hintPiece = S.hint && !S.win ? S.hint.moves[S.hint.idx].pi : null;
+  S.pieces.forEach(p => {
+    if (!p.el) return;
+    p.el.style.left = (p.col * cell + 4) + 'px';
+    p.el.style.top = (p.row * cell + 4) + 'px';
+    p.el.classList.toggle('selected', S.selected === p.idx);
+    p.el.classList.toggle('hint-target', hintPiece === p.idx);
+  });
+  // 提示箭头
+  const arrow = $('hint-arrow');
+  if (!arrow) return;
+  if (hintPiece != null) {
+    const m = S.hint.moves[S.hint.idx];
+    const p = S.pieces[m.pi];
+    arrow.style.left = (p.col * cell + 4) + 'px';
+    arrow.style.top = (p.row * cell + 4) + 'px';
+    arrow.style.width = (p.w * cell - 4) + 'px';
+    arrow.style.height = (p.h * cell - 4) + 'px';
+    arrow.textContent = DIR_GLYPHS[m.dir];
+    arrow.classList.remove('hidden');
+  } else {
+    arrow.classList.add('hidden');
+  }
+}
+function updateStats() {
+  if (!S) return;
+  const best = save.best[S.level.id];
+  const ref = S.ref == null ? '…' : S.ref;
+  const stars = best ? '★'.repeat(best.stars) + '☆'.repeat(3 - best.stars) : '';
+  $('stats').innerHTML =
+    `<span>步数 <b>${S.moves}</b></span>` +
+    `<span>参考 <b>${ref}</b> 步</span>` +
+    `<span>时间 <b>${fmtTime(S.seconds)}</b></span>` +
+    (best ? `<span class="best">最佳 ${stars} ${best.moves}步</span>` : '');
+  $('btn-undo').disabled = !S.hist.length;
+}
+
+/* ---------------- 棋子交互 ---------------- */
+function onPieceDown(e, idx, el) {
+  ensureAudio();
+  e.preventDefault();
+  const startX = e.clientX, startY = e.clientY;
+  let sx = startX, sy = startY, moved = false;
+  try { el.setPointerCapture(e.pointerId); } catch (err) {}
+  const onMove = ev => {
+    const dx = ev.clientX - sx, dy = ev.clientY - sy;
+    if (!moved && Math.hypot(dx, dy) > cell * 0.12) {
+      moved = true;
+      if (S.selected !== idx) { S.selected = idx; updateBoard(); }
+    }
+    if (!moved) return;
+    const ax = Math.abs(dx) >= Math.abs(dy) ? 'x' : 'y';
+    if (ax === 'x') {
+      if (dx >= cell) { if (tryMove(idx, 3)) sx = ev.clientX; }
+      else if (dx <= -cell) { if (tryMove(idx, 2)) sx = ev.clientX; }
+    } else {
+      if (dy >= cell) { if (tryMove(idx, 1)) sy = ev.clientY; }
+      else if (dy <= -cell) { if (tryMove(idx, 0)) sy = ev.clientY; }
+    }
+  };
+  const onUp = () => {
+    el.removeEventListener('pointermove', onMove);
+    el.removeEventListener('pointerup', onUp);
+    if (!moved) {
+      // 点选：始终选中该棋子（重复点击不取消，便于连续移动同一棋子）
+      if (S.selected !== idx) SFX.select();
+      S.selected = idx;
+      updateBoard();
+    }
+  };
+  el.addEventListener('pointermove', onMove);
+  el.addEventListener('pointerup', onUp);
+}
+
+/* ---------------- 胜利流程 ---------------- */
+function calcStars() {
+  const r = S.ref;
+  if (r == null || r < 0) return 1;
+  if (S.moves <= Math.ceil(r * 1.3)) return 3;
+  if (S.moves <= Math.ceil(r * 1.8)) return 2;
+  return 1;
+}
+function onWin() {
+  if (S.win) return;
+  S.win = true;
+  stopTimer();
+  const stars = calcStars();
+  // 存档：星级优先，同级比步数
+  const old = save.best[S.level.id];
+  if (!old || stars > old.stars || (stars === old.stars && S.moves < old.moves)) {
+    save.best[S.level.id] = { stars, moves: S.moves, seconds: S.seconds };
+    persistSave();
+  }
+  // 解锁下一难度：本难度通关 ≥3 关
+  const done = LEVELS_DATA.filter(l => l.diff === S.level.diff && save.best[l.id]).length;
+  if (done >= 3 && S.level.diff < 2) {
+    save.unlock = Math.max(save.unlock, S.level.diff + 1);
+    persistSave();
+  }
+  SFX.win();
+  // 甄嬛驶出宫门动画（先清除选中高亮与提示）
+  S.selected = null;
+  S.hint = null;
+  renderHint();
+  updateBoard();
+  const hero = S.pieces[0].el;
+  hero.classList.add('hero-out');
+  hero.style.top = (ROWS * cell + 30) + 'px';
+  setTimeout(() => showWinOverlay(stars), 800);
+}
+function showWinOverlay(stars) {
+  $('win-avatar').innerHTML = avatarSVG({ key: 'hero' }, 96);
+  $('win-sub').textContent = S.level.name + ' · 甄嬛已抵达宫门之外';
+  $('win-quote').textContent = WIN_QUOTES[(Math.random() * WIN_QUOTES.length) | 0];
+  let html = '';
+  for (let i = 0; i < 3; i++) {
+    html += `<span class="star ${i < stars ? 'on' : ''}" style="animation-delay:${i * 0.16}s">★</span>`;
+  }
+  $('win-stars').innerHTML = html;
+  $('win-stats').innerHTML =
+    `用时 <b>${fmtTime(S.seconds)}</b> · 步数 <b>${S.moves}</b> · 参考 <b>${S.ref}</b> 步`;
+  // 下一关
+  const idx = LEVELS_DATA.findIndex(l => l.id === S.level.id);
+  const next = LEVELS_DATA[idx + 1];
+  $('btn-next').classList.toggle('hidden', !next || next.diff > save.unlock);
+  $('overlay-win').classList.remove('hidden');
+}
+function closeWinOverlay() { $('overlay-win').classList.add('hidden'); }
+
+/* ---------------- 主菜单渲染 ---------------- */
+function starsHtml(best) {
+  if (!best) return '<span class="off">☆☆☆</span>';
+  let h = '';
+  for (let i = 0; i < 3; i++)
+    h += `<span class="${i < best.stars ? 'on' : 'off'}">★</span>`;
+  return h;
+}
+function renderMenu() {
+  // 页签
+  const tabs = $('diff-tabs');
+  tabs.innerHTML = '';
+  DIFF_NAMES.forEach((name, d) => {
+    const done = LEVELS_DATA.filter(l => l.diff === d && save.best[l.id]).length;
+    const b = document.createElement('button');
+    b.className = 'tab' + (d === currentTab ? ' active' : '') + (d > save.unlock ? ' locked' : '');
+    b.textContent = `${name} ${d > save.unlock ? '🔒' : '(' + done + '/4)'}`;
+    b.onclick = () => { currentTab = d; SFX.select(); renderMenu(); };
+    tabs.appendChild(b);
+  });
+  // 卡片（按当前难度页签过滤）
+  const grid = $('level-grid');
+  grid.innerHTML = '';
+  LEVELS_DATA.filter(l => l.diff === currentTab).forEach((lv, i) => {
+    const locked = lv.diff > save.unlock;
+    const best = save.best[lv.id];
+    const card = document.createElement('button');
+    card.className = 'card' + (locked ? ' locked' : '');
+    card.innerHTML =
+      `<div class="card-top">
+         <span class="card-no">${String(i + 1).padStart(2, '0')}</span>
+         <span class="card-name">${lv.name}</span>
+         <span class="card-stars">${starsHtml(best)}</span>
+       </div>
+       <div class="card-quote">${lv.quote}</div>
+       <div class="card-ref">${locked ? '通关上一难度 3 关解锁' : (REF_CACHE[lv.id] != null ? '参考 ' + REF_CACHE[lv.id] + ' 步' : '参考 …')}</div>
+       ${best ? `<div class="best-time">最佳 ${best.moves} 步 · ${fmtTime(best.seconds)}</div>` : ''}
+       ${locked ? '<span class="lock-icon">🔒</span>' : ''}`;
+    if (!locked) card.onclick = () => { ensureAudio(); SFX.select(); startLevel(lv); };
+    grid.appendChild(card);
+  });
+  // 底部提示
+  const all = LEVELS_DATA.every(l => save.best[l.id]);
+  $('menu-tip').textContent = all
+    ? '🎉 十二宫尽数踏破，熹贵妃登临凤位！'
+    : '把 2×2 的「甄嬛」移到下方宫门即可过关 · 步数越接近参考，星级越高';
+  // 异步补充参考步数
+  pumpRefs();
+}
+let currentTab = 0;
+function pumpRefs() {
+  const need = LEVELS_DATA.filter(l => l.diff <= save.unlock && REF_CACHE[l.id] == null);
+  if (!need.length) return;
+  const next = need.shift();
+  setTimeout(() => {
+    REF_CACHE[next.id] = solveOptimal(next);
+    renderMenu();
+  }, 20);
+}
+
+/* ---------------- 按钮与键盘 ---------------- */
+function wireButtons() {
+  $('btn-back').onclick = () => { SFX.select(); stopTimer(); S = null; setScreen('menu'); renderMenu(); };
+  $('btn-hint').onclick = () => { ensureAudio(); computeHint(); };
+  $('btn-undo').onclick = () => undo();
+  $('btn-restart').onclick = () => { SFX.select(); startLevel(S.level); };
+  $('btn-replay').onclick = () => { closeWinOverlay(); startLevel(S.level); };
+  $('btn-to-menu').onclick = () => { closeWinOverlay(); S = null; setScreen('menu'); renderMenu(); };
+  $('btn-next').onclick = () => {
+    const idx = LEVELS_DATA.findIndex(l => l.id === S.level.id);
+    const next = LEVELS_DATA[idx + 1];
+    closeWinOverlay();
+    startLevel(next);
+  };
+  $('btn-help').onclick = () => $('overlay-help').classList.remove('hidden');
+  $('btn-help-close').onclick = () => $('overlay-help').classList.add('hidden');
+  document.querySelectorAll('.dpad button[data-dir]').forEach(b => {
+    b.onclick = () => {
+      if (!S || S.win) return;
+      ensureAudio();
+      let pi = S.selected;
+      if (pi == null) { pi = firstMovable(); if (pi != null) S.selected = pi; }
+      if (pi != null) tryMove(pi, +b.dataset.dir);
+    };
+  });
+  const soundBtn = $('btn-sound');
+  const refreshSoundBtn = () => { soundBtn.textContent = muted ? '🔇' : '🔊'; soundBtn.classList.toggle('off', muted); };
+  soundBtn.onclick = () => { muted = !muted; save.muted = muted; persistSave(); refreshSoundBtn(); ensureAudio(); SFX.select(); };
+  refreshSoundBtn();
+  // 键盘
+  window.addEventListener('keydown', e => {
+    if (S && !$('screen-game').classList.contains('hidden')) {
+      const map = { ArrowUp: 0, ArrowDown: 1, ArrowLeft: 2, ArrowRight: 3 };
+      if (map[e.key] != null) {
+        e.preventDefault();
+        let pi = S.selected;
+        if (pi == null) { pi = firstMovable(); if (pi != null) S.selected = pi; }
+        if (pi != null) tryMove(pi, map[e.key]);
+      } else if (e.key === 'z' || e.key === 'Z' || e.key === 'u') {
+        undo();
+      } else if (e.key === 'r' || e.key === 'R') {
+        startLevel(S.level);
+      } else if (e.key === 'h' || e.key === 'H') {
+        computeHint();
+      }
+    }
+  });
+  // 首次交互激活音频（音效）
+  document.addEventListener('pointerdown', ensureAudio, { once: true });
+  window.addEventListener('keydown', ensureAudio, { once: true });
+  window.addEventListener('resize', () => {
+    if (S && !$('screen-game').classList.contains('hidden')) buildBoard();
+  });
+}
+
+/* ---------------- 启动 ---------------- */
+loadSave();
+wireButtons();
+setScreen('menu');
+renderMenu();
+</script>
+</body>
+</html>

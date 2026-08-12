@@ -1,0 +1,8 @@
+# 依赖与临时文件
+node_modules/
+*.log
+
+# 系统文件
+.DS_Store
+Thumbs.db
+desktop.ini
