@@ -17,7 +17,7 @@
   "build": {
     "appId": "com.zhenhuan.huarongdao",
     "productName": "深宫华容道",
-    "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
+    "artifactName": "ZhenHuan-HuaRongDao-${version}-${os}-${arch}.${ext}",
     "directories": { "output": "dist" },
     "files": ["main.js", "package.json"],
     "extraResources": [{ "from": "../index.html", "to": "index.html" }],
@@ -30,7 +30,11 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "深宫华容道"
+      "shortcutName": "深宫华容道",
+      "artifactName": "ZhenHuan-HuaRongDao-Setup-${version}-${arch}.${ext}"
+    },
+    "portable": {
+      "artifactName": "ZhenHuan-HuaRongDao-Portable-${version}-${arch}.${ext}"
     },
     "mac": {
       "target": ["dmg", "zip"],

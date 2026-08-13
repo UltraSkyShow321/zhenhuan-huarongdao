@@ -18,7 +18,7 @@ jobs:
           - os: windows-latest
             args: --win
           - os: macos-latest
-            args: --mac
+            args: --mac --x64 --arm64
           - os: ubuntu-latest
             args: --linux
     runs-on: ${{ matrix.os }}
@@ -71,6 +71,10 @@ jobs:
       - name: Build debug APK
         working-directory: mobile/android
         run: ./gradlew assembleDebug --no-daemon
+      - name: Rename APK
+        run: |
+          mv mobile/android/app/build/outputs/apk/debug/app-debug.apk \
+             mobile/android/app/build/outputs/apk/debug/ZhenHuan-HuaRongDao-${{ github.ref_name }}.apk
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
@@ -92,13 +96,18 @@ jobs:
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: artifacts/*
+          files: |
+            artifacts/*.exe
+            artifacts/*.dmg
+            artifacts/*.zip
+            artifacts/*.AppImage
+            artifacts/*.apk
           body: |
             # 甄嬛传 · 深宫华容道
 
             ## 下载安装
-            - **Windows**：下载 `Setup` 安装版（或 `portable` 免安装版），双击运行
-            - **macOS**：下载 `.dmg` 拖入「应用程序」；首次打开请右键 → 打开（未签名提示）
+            - **Windows**：下载 `Setup` 安装版（或 `Portable` 免安装版），双击运行
+            - **macOS**：按芯片选择 `arm64`（M 系列）或 `x64`（Intel）的 `.dmg`，拖入「应用程序」；首次打开请右键 → 打开（未签名提示）
             - **Linux**：下载 `.AppImage`，`chmod +x` 后运行
             - **Android / 鸿蒙 1-4**：下载 `.apk`，允许「未知来源」后安装
             - **iOS / 鸿蒙 NEXT**：浏览器打开 https://ultraskyshow321.github.io/zhenhuan-huarongdao/ ，「添加到主屏幕」即可像 App 一样使用
