@@ -1,0 +1,8 @@
+{
+  "appId": "com.zhenhuan.huarongdao",
+  "appName": "深宫华容道",
+  "webDir": "www",
+  "android": {
+    "allowMixedContent": false
+  }
+}

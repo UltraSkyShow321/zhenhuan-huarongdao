@@ -1,0 +1,13 @@
+{
+  "name": "zhenhuan-huarongdao-mobile",
+  "version": "1.1.0",
+  "description": "甄嬛传主题华容道移动版（Capacitor 壳）",
+  "author": "UltraSkyShow321",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@capacitor/cli": "^6.2.0",
+    "@capacitor/core": "^6.2.0",
+    "@capacitor/android": "^6.2.0"
+  }
+}

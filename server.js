@@ -11,7 +11,13 @@ const URL = 'http://localhost:' + PORT + '/';
 http.createServer((req, res) => {
   const p = path.join(root, req.url === '/' ? 'index.html' : req.url.split('?')[0]);
   if (!p.startsWith(root) || !fs.existsSync(p)) { res.writeHead(404); res.end('404 Not Found'); return; }
-  res.writeHead(200, { 'Content-Type': p.endsWith('.html') ? 'text/html; charset=utf-8' : 'text/plain' });
+  const type = p.endsWith('.html') ? 'text/html; charset=utf-8'
+    : p.endsWith('.webmanifest') ? 'application/manifest+json; charset=utf-8'
+    : p.endsWith('.js') ? 'text/javascript; charset=utf-8'
+    : p.endsWith('.json') ? 'application/json; charset=utf-8'
+    : p.endsWith('.png') ? 'image/png'
+    : 'text/plain';
+  res.writeHead(200, { 'Content-Type': type });
   res.end(fs.readFileSync(p));
 }).listen(PORT, () => {
   console.log('ZhenHuan HuaRongDao: ' + URL);

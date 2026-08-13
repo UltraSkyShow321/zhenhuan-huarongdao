@@ -41,6 +41,21 @@
 
 然后访问 <http://localhost:8123/>
 
+## 📦 五平台下载安装（Release 安装包）
+
+每次发布新版本（打 `v*` tag）会自动构建出各平台安装包，到仓库 **Releases** 页面下载：
+
+| 平台 | 安装包 | 安装方式 |
+| ---- | ------ | -------- |
+| 🪟 Windows | `深宫华容道-…-win-x64.exe`（安装版 / portable 免安装版） | 双击安装，自动创建桌面与开始菜单快捷方式 |
+| 🍎 macOS | `深宫华容道-…-mac-….dmg` | 拖入「应用程序」；首次打开需**右键 → 打开**（未签名提示，属正常） |
+| 🐧 Linux | `深宫华容道-…-linux-x86_64.AppImage` | `chmod +x` 后双击运行 |
+| 🤖 Android | `.apk` | 下载后允许「未知来源」安装；**鸿蒙 1-4 同样可装** |
+| 📱 iOS | 无需安装包 | Safari 打开在线地址 → 分享 → **添加到主屏幕**，即可像 App 一样独立全屏使用 |
+| ⭕ 鸿蒙 NEXT | 无需安装包 | 浏览器打开在线地址 → **添加到桌面**（NEXT 不再兼容 APK，原生版需另做 ArkTS 开发） |
+
+> ⚠️ 说明：macOS 与 Android 安装包未做正式商店签名（需要 Apple 开发者账号 $99/年 或 Android 签名证书）。自行分发使用没有任何问题，仅首次安装时有安全提示。正式上架应用商店的签名方法见「常见问题」。
+
 ## 🎮 玩法与操作
 
 - **规则**：经典华容道。棋子只能沿空格一格一格滑动，不能旋转。把 2×2 的「甄嬛」移到棋盘底部中央的宫门口即可过关
@@ -53,13 +68,20 @@
 
 ```
 .
-├── index.html        # 游戏本体（HTML+CSS+JS 全部内嵌，单文件）
-├── server.js         # 可选：本地静态服务器
-├── 启动游戏.bat       # Windows 一键启动
-├── start.sh          # macOS / Linux 一键启动
-├── validate.js       # 开发工具：校验 12 关可解性与最优步数回归
-├── screenshots/      # README 截图
-└── LICENSE           # MIT 协议
+├── index.html            # 游戏本体（HTML+CSS+JS 全部内嵌，单文件）
+├── manifest.webmanifest  # PWA 清单（添加到主屏幕/桌面安装）
+├── sw.js                 # Service Worker（离线缓存，断网可玩）
+├── icons/                # 应用图标全套（PWA/桌面/Android 共用）
+├── desktop/              # Electron 桌面壳（Windows/macOS/Linux 安装包）
+├── mobile/               # Capacitor 壳（Android APK）+ Android 图标资源
+├── .github/workflows/    # CI：打 tag 自动构建五平台安装包并发布 Release
+├── server.js             # 可选：本地静态服务器
+├── 启动游戏.bat           # Windows 一键启动（网页版）
+├── start.sh              # macOS / Linux 一键启动（网页版）
+├── validate.js           # 开发工具：校验 12 关可解性与最优步数回归
+├── icon-source.html      # 开发工具：应用图标源文件（改图标后可用它重新生成）
+├── screenshots/          # README 截图
+└── LICENSE               # MIT 协议
 ```
 
 ## 🛠 技术说明
@@ -76,6 +98,8 @@
 **双击 .bat 被 Windows 拦截？** 从网上下载的脚本文件会被标记，属正常安全提示。可右键 `启动游戏.bat` → 属性 → 勾选「解除锁定」；或干脆跳过脚本，直接双击 `index.html`（效果完全一样，不需要 Node.js）。
 
 **在线版打不开？** 部分网络环境访问 `*.github.io` 不稳定（可能被重置）。可改从仓库页 **Code → Download ZIP** 下载后双击 `index.html` 离线游玩，效果完全一致。
+
+**想正式上架应用商店？** macOS App Store 与 iOS 需 Apple 开发者账号（$99/年）并在 Mac 上签名打包；Android 应用商店需自有签名证书（keystore）。本仓库已预留好工程（`desktop/`、`mobile/`），按对应平台文档签名即可，欢迎自行研究或联系作者协助。
 
 **手机上能玩吗？** 能。在线版直接用手机浏览器打开链接；本地版可通过局域网访问（`node server.js` 后，手机访问 `http://电脑IP:8123/`）。
 

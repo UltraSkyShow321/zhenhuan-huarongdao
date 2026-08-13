@@ -1,0 +1,46 @@
+{
+  "name": "zhenhuan-huarongdao-desktop",
+  "productName": "深宫华容道",
+  "version": "1.1.0",
+  "description": "甄嬛传主题华容道桌面版",
+  "author": "UltraSkyShow321",
+  "license": "MIT",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --publish never"
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.zhenhuan.huarongdao",
+    "productName": "深宫华容道",
+    "artifactName": "${productName}-${version}-${os}-${arch}.${ext}",
+    "directories": { "output": "dist" },
+    "files": ["main.js", "package.json"],
+    "extraResources": [{ "from": "../index.html", "to": "index.html" }],
+    "win": {
+      "target": ["nsis", "portable"],
+      "icon": "../icons/icon-512.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "深宫华容道"
+    },
+    "mac": {
+      "target": ["dmg", "zip"],
+      "icon": "../icons/icon-512.png",
+      "category": "public.app-category.games"
+    },
+    "linux": {
+      "target": ["AppImage"],
+      "icon": "../icons/icon-512.png",
+      "category": "Game"
+    }
+  }
+}

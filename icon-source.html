@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>icon-source</title>
+<style>
+:root { --s: 512px; }
+html, body { margin: 0; padding: 0; overflow: hidden; background: #200a08; }
+body { width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center; }
+.icon {
+  width: var(--s); height: var(--s);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: radial-gradient(ellipse at 50% 30%, #7a241a 0%, #3a120d 55%, #200a08 100%);
+  box-sizing: border-box;
+  border: calc(var(--s) * .06) solid #e8c66a;
+  box-shadow: inset 0 0 0 calc(var(--s) * .032) #a8873f, inset 0 0 calc(var(--s) * .08) rgba(0,0,0,.45);
+  font-family: "KaiTi", "STKaiti", "楷体", "SimSun", serif;
+}
+.arch {
+  width: calc(var(--s) * .56); height: calc(var(--s) * .58);
+  border: calc(var(--s) * .036) solid #e8c66a;
+  border-bottom: none;
+  border-radius: 50% 50% 0 0 / 45% 45% 0 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: radial-gradient(ellipse at 50% 100%, rgba(255,215,130,.16), rgba(0,0,0,.15));
+  box-shadow: 0 0 calc(var(--s) * .06) rgba(232,198,106,.25);
+}
+.zi {
+  font-size: calc(var(--s) * .33); line-height: 1;
+  color: #f7e3a0;
+  text-shadow: 0 calc(var(--s) * .008) calc(var(--s) * .024) rgba(0,0,0,.7), 0 0 calc(var(--s) * .048) rgba(232,198,106,.55);
+}
+.sub {
+  margin-top: calc(var(--s) * -.06);
+  font-size: calc(var(--s) * .054); letter-spacing: calc(var(--s) * .026); text-indent: calc(var(--s) * .026);
+  color: #e8c66a; opacity: .95;
+  text-shadow: 0 calc(var(--s) * .004) calc(var(--s) * .016) rgba(0,0,0,.8);
+}
+</style>
+</head>
+<body>
+<div class="icon">
+  <div class="arch">
+    <div class="zi">甄</div>
+  </div>
+  <div class="sub">华容道</div>
+</div>
+<script>
+// 从 URL ?px= 读取目标尺寸（默认 512），图标始终在视口居中，由截图裁剪裁出
+const px = Math.max(32, Math.min(720, parseInt(new URLSearchParams(location.search).get('px') || '512', 10)));
+document.documentElement.style.setProperty('--s', px + 'px');
+</script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+name: release
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  # ============ 桌面三平台（Electron） ============
+  desktop:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            args: --win
+          - os: macos-latest
+            args: --mac
+          - os: ubuntu-latest
+            args: --linux
+    runs-on: ${{ matrix.os }}
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: "false"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install dependencies & build
+        working-directory: desktop
+        run: |
+          npm install
+          npx electron-builder ${{ matrix.args }} --publish never
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-${{ matrix.os }}
+          path: desktop/dist/*
+          if-no-files-found: error
+
+  # ============ Android（Capacitor） ============
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Prepare web assets
+        run: |
+          mkdir -p mobile/www/icons
+          cp index.html manifest.webmanifest sw.js mobile/www/
+          cp icons/icon-192.png icons/icon-512.png icons/apple-touch-icon.png mobile/www/icons/
+      - name: Add Android platform
+        working-directory: mobile
+        run: |
+          npm install
+          npx cap add android
+      - name: Apply custom launcher icons
+        run: |
+          cp -r mobile/android-res/* mobile/android/app/src/main/res/
+          # 移除自适应图标声明，让各密度传统 PNG 生效（全 Android 版本通用）
+          rm -rf mobile/android/app/src/main/res/mipmap-anydpi-v26
+      - name: Build debug APK
+        working-directory: mobile/android
+        run: ./gradlew assembleDebug --no-daemon
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: mobile/android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: error
+
+  # ============ 汇总发布 GitHub Release ============
+  release:
+    needs: [desktop, android]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+      - name: Publish GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/*
+          body: |
+            # 甄嬛传 · 深宫华容道
+
+            ## 下载安装
+            - **Windows**：下载 `Setup` 安装版（或 `portable` 免安装版），双击运行
+            - **macOS**：下载 `.dmg` 拖入「应用程序」；首次打开请右键 → 打开（未签名提示）
+            - **Linux**：下载 `.AppImage`，`chmod +x` 后运行
+            - **Android / 鸿蒙 1-4**：下载 `.apk`，允许「未知来源」后安装
+            - **iOS / 鸿蒙 NEXT**：浏览器打开 https://ultraskyshow321.github.io/zhenhuan-huarongdao/ ，「添加到主屏幕」即可像 App 一样使用
+
+            > 注：macOS 与 Android 安装包未做正式签名（需开发者账号），属正常安全提示。
