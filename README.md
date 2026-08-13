@@ -60,7 +60,7 @@
 | 🐧 Linux | `深宫华容道-…-linux-x86_64.AppImage` | `chmod +x` 后双击运行 |
 | 🤖 Android | `.apk` | 下载后允许「未知来源」安装；**鸿蒙 1-4 同样可装** |
 | 📱 iOS | 无需安装包 | Safari 打开在线地址 → 分享 → **添加到主屏幕**，即可像 App 一样独立全屏使用 |
-| ⭕ 鸿蒙 NEXT | 无需安装包 | 浏览器打开在线地址 → **添加到桌面**（NEXT 不再兼容 APK，原生版需另做 ArkTS 开发） |
+| ⭕ 鸿蒙 6.0+ | **原生 HAP** | 仓库内附完整 ArkTS 工程（`mobile/harmonyos/`），用免费 DevEco Studio 一键构建安装；构建步骤见 [鸿蒙原生版构建指南](mobile/harmonyos/README.md)（约 5 分钟）。鸿蒙 NEXT 已不兼容 APK，原生版即此工程 |
 
 > ⚠️ 说明：macOS 与 Android 安装包未做正式商店签名（需要 Apple 开发者账号 $99/年 或 Android 签名证书）。自行分发使用没有任何问题，仅首次安装时有安全提示。正式上架应用商店的签名方法见「常见问题」。
 
@@ -79,10 +79,11 @@
 ├── index.html            # 游戏本体（HTML+CSS+JS 全部内嵌，单文件）
 ├── manifest.webmanifest  # PWA 清单（添加到主屏幕/桌面安装）
 ├── sw.js                 # Service Worker（离线缓存，断网可玩）
-├── icons/                # 应用图标全套（PWA/桌面/Android 共用）
+├── icons/                # 应用图标全套（PWA/桌面/Android/HarmonyOS 共用）
 ├── desktop/              # Electron 桌面壳（Windows/macOS/Linux 安装包）
 ├── mobile/               # Capacitor 壳（Android APK）+ Android 图标资源
-├── .github/workflows/    # CI：打 tag 自动构建五平台安装包并发布 Release
+│   └── harmonyos/        # HarmonyOS 6.0+ 原生 ArkTS 工程（DevEco Studio 构建 HAP）
+├── .github/workflows/    # CI：打 tag 自动构建各平台安装包并发布 Release
 ├── server.js             # 可选：本地静态服务器
 ├── 启动游戏.bat           # Windows 一键启动（网页版）
 ├── start.sh              # macOS / Linux 一键启动（网页版）

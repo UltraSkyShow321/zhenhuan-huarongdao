@@ -1,0 +1,22 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "深宫华容道主模块"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "甄嬛传主题华容道游戏"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "深宫华容道"
+    }
+  ],
+  "color": [
+    {
+      "name": "start_window_background",
+      "value": "#200A08"
+    }
+  ]
+}
