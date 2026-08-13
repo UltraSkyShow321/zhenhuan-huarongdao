@@ -4,6 +4,14 @@
 
 **零依赖 · 单文件 · 下载即玩**——不用安装任何东西，双击 `index.html` 即可开始。
 
+## ⬇️ 下载安装包（点这里）
+
+> 👉 **[📦 前往 Releases 下载页](https://github.com/UltraSkyShow321/zhenhuan-huarongdao/releases/latest)** —— Windows 安装版 / macOS dmg / Linux AppImage / Android APK 全在这里
+>
+> 📱 **在线直接玩**：[https://ultraskyshow321.github.io/zhenhuan-huarongdao/](https://ultraskyshow321.github.io/zhenhuan-huarongdao/)（手机浏览器打开可「添加到主屏幕」像 App 一样使用）
+>
+> 💡 找不到 Releases 入口？在仓库主页右上角 **About** 右侧、以及页面右栏 **Releases** 处点击；或者直接访问 `github.com/<用户名>/<仓库名>/releases`。
+
 | 主菜单 | 游戏界面（含提示系统） |
 | ------ | ---------------------- |
 | ![主菜单](screenshots/menu.png) | ![游戏界面](screenshots/game.png) |
