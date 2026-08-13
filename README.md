@@ -60,7 +60,7 @@
 | 🐧 Linux | `深宫华容道-…-linux-x86_64.AppImage` | `chmod +x` 后双击运行 |
 | 🤖 Android | `.apk` | 下载后允许「未知来源」安装；**鸿蒙 1-4 同样可装** |
 | 📱 iOS | 无需安装包 | Safari 打开在线地址 → 分享 → **添加到主屏幕**，即可像 App 一样独立全屏使用 |
-| ⭕ 鸿蒙 6.0+ | **原生 HAP** | 仓库内附完整 ArkTS 工程（`mobile/harmonyos/`），用免费 DevEco Studio 一键构建安装；构建步骤见 [鸿蒙原生版构建指南](mobile/harmonyos/README.md)（约 5 分钟）。鸿蒙 NEXT 已不兼容 APK，原生版即此工程 |
+| ⭕ 鸿蒙 6.0+ | **原生 HAP** | 仓库内附完整 ArkTS 工程（`mobile/harmonyos/`），用免费 DevEco Studio 一键构建安装；构建安装步骤见 [鸿蒙 5.0+ 详细安装指南](mobile/harmonyos/INSTALL.md)。鸿蒙 NEXT 已不兼容 APK，原生版即此工程 |
 
 > ⚠️ 说明：macOS 与 Android 安装包未做正式商店签名（需要 Apple 开发者账号 $99/年 或 Android 签名证书）。自行分发使用没有任何问题，仅首次安装时有安全提示。正式上架应用商店的签名方法见「常见问题」。
 
