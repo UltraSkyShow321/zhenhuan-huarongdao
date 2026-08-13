@@ -14,12 +14,6 @@ struct Index {
         .javaScriptAccess(true)
         .domStorageAccess(true)
         .fileAccess(true)
-        .onRenderExited((event) => {
-          if (event.reason === webview.RenderExitReason.CRASH) {
-            // 渲染进程异常时重载
-            this.controller.reload();
-          }
-        })
     }
     .width('100%')
     .height('100%')

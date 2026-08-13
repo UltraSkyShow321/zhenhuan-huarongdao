@@ -1,0 +1,25 @@
+{
+  "modulePathMap": {
+    "entry": "D:\\ZCProjects\\zhenhuan-huarongdao\\mobile\\harmonyos\\entry"
+  },
+  "compileMode": "esmodule",
+  "projectRootPath": "D:\\ZCProjects\\zhenhuan-huarongdao\\mobile\\harmonyos",
+  "nodeModulesPath": "D:\\ZCProjects\\zhenhuan-huarongdao\\mobile\\harmonyos\\entry\\build\\default\\intermediates\\loader_out\\default\\node_modules",
+  "byteCodeHarInfo": {},
+  "declarationEntry": [],
+  "moduleName": "entry",
+  "hspNameOhmMap": {},
+  "harNameOhmMap": {},
+  "packageManagerType": "ohpm",
+  "compileEntry": [
+    "D:\\ZCProjects\\zhenhuan-huarongdao\\mobile\\harmonyos\\entry\\build\\default\\generated\\r\\default\\ResourceTable.ts"
+  ],
+  "otherCompileFiles": [],
+  "dynamicImportLibInfo": {},
+  "routerMap": [],
+  "hspResourcesMap": {},
+  "updateVersionInfo": {},
+  "customizedHar": false,
+  "anBuildOutPut": "D:\\ZCProjects\\zhenhuan-huarongdao\\mobile\\harmonyos\\entry\\build\\default\\intermediates\\loader_out\\default\\an\\arm64-v8a",
+  "anBuildMode": "type"
+}
