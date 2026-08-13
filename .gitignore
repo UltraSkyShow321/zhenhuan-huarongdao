@@ -6,6 +6,12 @@ node_modules/
 desktop/dist/
 mobile/www/
 mobile/android/
+mobile/harmonyos/.hvigor/
+mobile/harmonyos/.idea/
+mobile/harmonyos/entry/build/
+mobile/harmonyos/entry/.preview/
+mobile/harmonyos/oh_modules/
+mobile/harmonyos/**/oh-package-lock.json5
 
 # 系统文件
 .DS_Store
