@@ -93,6 +93,12 @@ jobs:
         with:
           path: artifacts
           merge-multiple: true
+      - name: Generate SHA-256 checksums
+        run: |
+          cd artifacts
+          ls -1 *.exe *.dmg *.zip *.AppImage *.apk 2>/dev/null | sort | while read f; do
+            sha256sum "$f" | tee -a SHA256SUMS.txt
+          done
       - name: Publish GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -102,6 +108,7 @@ jobs:
             artifacts/*.zip
             artifacts/*.AppImage
             artifacts/*.apk
+            artifacts/SHA256SUMS.txt
           body: |
             # 甄嬛传 · 深宫华容道
 
