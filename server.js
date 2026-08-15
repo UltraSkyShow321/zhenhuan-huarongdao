@@ -9,16 +9,23 @@ const PORT = 8123;
 const URL = 'http://localhost:' + PORT + '/';
 
 http.createServer((req, res) => {
-  const p = path.join(root, req.url === '/' ? 'index.html' : req.url.split('?')[0]);
-  if (!p.startsWith(root) || !fs.existsSync(p)) { res.writeHead(404); res.end('404 Not Found'); return; }
-  const type = p.endsWith('.html') ? 'text/html; charset=utf-8'
-    : p.endsWith('.webmanifest') ? 'application/manifest+json; charset=utf-8'
-    : p.endsWith('.js') ? 'text/javascript; charset=utf-8'
-    : p.endsWith('.json') ? 'application/json; charset=utf-8'
-    : p.endsWith('.png') ? 'image/png'
-    : 'text/plain';
-  res.writeHead(200, { 'Content-Type': type });
-  res.end(fs.readFileSync(p));
+  try {
+    let p = path.join(root, req.url === '/' ? 'index.html' : req.url.split('?')[0]);
+    // 目录或不存在的路径一律回退到 index.html（SPA 行为）
+    if (!p.startsWith(root) || !fs.existsSync(p) || !fs.statSync(p).isFile()) p = path.join(root, 'index.html');
+    const ext = path.extname(p).toLowerCase();
+    const type = ext === '.html' ? 'text/html; charset=utf-8'
+      : ext === '.webmanifest' ? 'application/manifest+json; charset=utf-8'
+      : ext === '.js' ? 'text/javascript; charset=utf-8'
+      : ext === '.json' ? 'application/json; charset=utf-8'
+      : ext === '.png' ? 'image/png'
+      : ext === '.txt' ? 'text/plain; charset=utf-8'
+      : 'application/octet-stream';
+    res.writeHead(200, { 'Content-Type': type });
+    res.end(fs.readFileSync(p));
+  } catch (e) {
+    res.writeHead(500); res.end('500 Internal Error');
+  }
 }).listen(PORT, () => {
   console.log('ZhenHuan HuaRongDao: ' + URL);
   console.log('Press Ctrl+C to stop.');

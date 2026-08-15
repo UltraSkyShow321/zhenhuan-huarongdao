@@ -13,6 +13,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="深宫华容道">
+<script src="version.js"></script>
 <style>
 /* ============ 全局 ============ */
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -218,6 +219,88 @@ p.menu-quote { color: var(--text-dim); text-align: center; font-size: 13px; marg
 }
 #btn-sound.off { opacity: .45; filter: grayscale(1); }
 
+/* ===== v1.2 新增 ===== */
+.badge.d3 { color: #c9b08a; border-color: #8a7a5a; background: rgba(120,100,60,.18); }
+
+/* 菜单功能行 */
+#menu-actions { display: flex; justify-content: center; align-items: center; gap: 10px; margin: 0 0 14px; flex-wrap: wrap; }
+#menu-actions .chk { font-size: 14px; color: var(--text-dim); cursor: pointer; user-select: none; letter-spacing: .05em; }
+#menu-actions .chk input { vertical-align: -2px; accent-color: #d24a35; cursor: pointer; }
+.custom-empty { grid-column: 1 / -1; text-align: center; color: var(--text-dim); padding: 40px 0; line-height: 2; letter-spacing: .1em; }
+.card-del {
+  position: absolute; top: 8px; right: 12px; width: 22px; height: 22px; line-height: 20px;
+  text-align: center; border-radius: 50%; color: var(--text-dim);
+  border: 1px solid rgba(232,198,106,.3); background: rgba(0,0,0,.25); cursor: pointer;
+}
+.card-del:hover { color: #ff9a8a; border-color: #ff9a8a; }
+
+/* 挑战 HUD */
+.stats .ch { color: #ffd75e; }
+.stats .ch b { color: #ffd75e; }
+.stats b.warn, .stats .warn { color: #ff7a6a !important; }
+
+/* 通用宽面板 */
+.win-panel.wide { width: min(640px, 96vw); max-height: 92vh; overflow-y: auto; }
+
+/* 成就 */
+.ach-count { font-size: 14px; color: var(--text-dim); letter-spacing: .1em; }
+.ach-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; margin: 18px 0 6px; text-align: left; }
+.ach-item { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border-radius: 10px;
+  background: rgba(0,0,0,.22); border: 1px solid rgba(232,198,106,.2); }
+.ach-item .ach-icon { font-size: 22px; }
+.ach-item .ach-name { color: var(--text-dim); font-size: 14px; letter-spacing: .08em; }
+.ach-item .ach-desc { color: var(--text-dim); font-size: 11px; opacity: .75; }
+.ach-item.got { border-color: var(--gold); background: rgba(232,198,106,.08); box-shadow: 0 0 10px rgba(232,198,106,.12); }
+.ach-item.got .ach-name { color: var(--gold-bright); }
+
+/* 统计 */
+.stats-rows { margin: 16px 0 4px; }
+.stat-row { display: flex; justify-content: space-between; padding: 7px 14px; font-size: 14px; color: var(--text-dim);
+  border-bottom: 1px dashed rgba(232,198,106,.18); letter-spacing: .05em; }
+.stat-row b { color: var(--gold-bright); font-weight: normal; }
+
+/* 存档管理 */
+.save-tip { color: var(--text-dim); font-size: 12px; margin: 10px 0 8px; line-height: 1.8; text-align: left; }
+#save-io, #ed-code { width: 100%; background: rgba(0,0,0,.3); border: 1px solid var(--gold-dim); border-radius: 8px;
+  color: var(--text); font-family: monospace; font-size: 11px; padding: 8px 10px; resize: vertical; box-sizing: border-box; }
+.save-btns { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; justify-content: center; }
+.file-label { display: inline-block; }
+.save-msg { color: #ffd75e; font-size: 13px; min-height: 18px; margin-top: 8px; letter-spacing: .05em; }
+
+/* 编辑器 */
+.ed-main { display: flex; gap: 16px; margin-top: 12px; text-align: left; }
+.ed-left { flex: 1.2; }
+.ed-right { flex: 1; display: flex; flex-direction: column; }
+.ed-pal { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; }
+.ed-pal button { padding: 5px 12px; font-size: 13px; cursor: pointer; border-radius: 7px;
+  background: rgba(0,0,0,.3); border: 1px solid var(--gold-dim); color: var(--text-dim); }
+.ed-pal button.active { background: linear-gradient(180deg, #7a241a, #57140f); color: var(--gold-bright); border-color: var(--gold); }
+.ed-pal button.clear { margin-left: auto; color: #ff9a8a; border-color: rgba(255,154,138,.4); }
+.ed-grid { display: grid; grid-template-columns: repeat(4, 44px); grid-template-rows: repeat(5, 44px); gap: 3px;
+  background: linear-gradient(180deg, #5c3c1e, #452a12); border: 2px solid var(--gold-dim); border-radius: 8px;
+  padding: 5px; width: max-content; }
+.ed-cell { border: none; font-family: inherit; border-radius: 4px; background: rgba(0,0,0,.25); cursor: pointer;
+  display: flex; align-items: center; justify-content: center; color: #fff8e7; font-size: 18px; padding: 0; }
+.ed-cell:hover { outline: 1px solid var(--gold); }
+.ed-msg { color: #9fd08a; font-size: 13px; min-height: 20px; margin: 8px 0; letter-spacing: .04em; }
+.ed-msg.err { color: #ff9a8a; }
+.ed-name-row input, .ed-right textarea { margin-top: 6px; }
+#ed-name { width: 100%; box-sizing: border-box; background: rgba(0,0,0,.3); border: 1px solid var(--gold-dim);
+  border-radius: 8px; color: var(--text); font-family: inherit; font-size: 14px; padding: 7px 10px; }
+.ed-btns { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+@media (max-width: 560px) { .ed-main { flex-direction: column; } }
+
+/* toast */
+#toast {
+  position: fixed; left: 50%; bottom: 34px; transform: translateX(-50%) translateY(20px);
+  background: linear-gradient(180deg, #6b2118, #48120c); border: 1px solid var(--gold);
+  color: var(--gold-bright); padding: 9px 20px; border-radius: 999px; font-size: 14px; letter-spacing: .06em;
+  box-shadow: 0 6px 20px rgba(0,0,0,.5), 0 0 14px rgba(232,198,106,.2);
+  opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; z-index: 90;
+  max-width: 86vw; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
 /* 角色立绘 */
 .piece .p-avatar { pointer-events: none; }
 .piece .p-row { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 6px; }
@@ -260,6 +343,13 @@ p.menu-quote { color: var(--text-dim); text-align: center; font-size: 13px; marg
     <p class="subtitle">甄嬛传主题 · 助熹贵妃逃出深宫</p>
   </div>
   <nav id="diff-tabs"></nav>
+  <div id="menu-actions">
+    <button class="btn small" id="btn-ach">🏆 成就</button>
+    <button class="btn small" id="btn-stats">📊 统计</button>
+    <button class="btn small" id="btn-save-io">💾 存档</button>
+    <button class="btn small" id="btn-editor">🎨 编辑器</button>
+    <label class="chk"><input type="checkbox" id="chk-challenge"> ⚡挑战模式</label>
+  </div>
   <div id="level-grid"></div>
   <p id="menu-tip"></p>
 </section>
@@ -279,6 +369,7 @@ p.menu-quote { color: var(--text-dim); text-align: center; font-size: 13px; marg
     <div id="arch-wrap"><div id="exit-arch"></div><span>宫门 · 出口</span></div>
   </div>
   <div class="controls">
+    <button class="btn" id="btn-demo" title="演示最优解（D）">演示</button>
     <button class="btn" id="btn-hint" title="提示最优走法（H）">提示</button>
     <button class="btn" id="btn-undo">悔棋</button>
     <div class="dpad">
@@ -324,6 +415,97 @@ p.menu-quote { color: var(--text-dim); text-align: center; font-size: 13px; marg
     <div class="win-btns"><button class="btn primary" id="btn-help-close">知道了</button></div>
   </div>
 </div>
+
+<!-- 成就弹层 -->
+<div id="overlay-ach" class="overlay hidden">
+  <div class="win-panel wide">
+    <h2 style="font-size:24px">🏆 成就 <span id="ach-count" class="ach-count"></span></h2>
+    <div class="ach-grid" id="ach-grid"></div>
+    <div class="win-btns"><button class="btn primary" id="btn-ach-close">关闭</button></div>
+  </div>
+</div>
+
+<!-- 统计弹层 -->
+<div id="overlay-stats" class="overlay hidden">
+  <div class="win-panel">
+    <h2 style="font-size:24px">📊 深宫生涯</h2>
+    <div class="stats-rows" id="stats-rows"></div>
+    <div class="win-btns"><button class="btn primary" id="btn-stats-close">关闭</button></div>
+  </div>
+</div>
+
+<!-- 存档导出/导入弹层 -->
+<div id="overlay-save" class="overlay hidden">
+  <div class="win-panel">
+    <h2 style="font-size:24px">💾 存档管理</h2>
+    <p class="save-tip">导出存档码保存好（发给自己/网盘），换设备或重装后粘贴导入即可恢复全部进度。</p>
+    <textarea id="save-io" rows="5" spellcheck="false" placeholder="存档码会显示在这里；导入时把存档码粘贴到这里"></textarea>
+    <div class="save-btns">
+      <button class="btn small" id="btn-export">生成存档码</button>
+      <button class="btn small" id="btn-copy-save">复制</button>
+      <button class="btn small" id="btn-dl-save">下载文件</button>
+      <button class="btn small" id="btn-import-save">导入（覆盖）</button>
+      <label class="btn small file-label">上传文件<input type="file" id="save-file" accept=".txt" hidden></label>
+    </div>
+    <p class="save-msg" id="save-msg"></p>
+    <div class="win-btns"><button class="btn primary" id="btn-save-close">关闭</button></div>
+  </div>
+</div>
+
+<!-- 关卡编辑器弹层 -->
+<div id="overlay-editor" class="overlay hidden">
+  <div class="win-panel wide">
+    <h2 style="font-size:24px">🎨 关卡编辑器</h2>
+    <p class="save-tip">选工具 → 点击棋盘放置。需要：甄嬛×1、竖将×4、横将×1、兵×4，恰好空 2 格。</p>
+    <div class="ed-main">
+      <div class="ed-left">
+        <div class="ed-pal">
+          <button data-tool="H">甄嬛</button>
+          <button data-tool="V">竖将</button>
+          <button data-tool="B">横将</button>
+          <button data-tool="S">兵</button>
+          <button data-tool="E">橡皮</button>
+          <button id="ed-reset" class="clear">清空</button>
+        </div>
+        <div class="ed-grid" id="ed-grid"></div>
+        <div class="ed-msg" id="ed-msg"></div>
+        <div class="ed-name-row">
+          <input id="ed-name" maxlength="10" placeholder="关卡名称（保存时必填）">
+        </div>
+        <div class="ed-btns">
+          <button class="btn small" id="ed-validate">验证</button>
+          <button class="btn small" id="ed-play">试玩</button>
+          <button class="btn small" id="ed-save">保存到我的关卡</button>
+        </div>
+      </div>
+      <div class="ed-right">
+        <p class="save-tip">分享码</p>
+        <textarea id="ed-code" rows="3" spellcheck="false" placeholder="点「生成分享码」导出；或粘贴好友的分享码后点「导入分享码」"></textarea>
+        <div class="ed-btns">
+          <button class="btn small" id="ed-share">生成分享码</button>
+          <button class="btn small" id="ed-import">导入分享码</button>
+        </div>
+      </div>
+    </div>
+    <div class="win-btns"><button class="btn primary" id="btn-editor-close">关闭</button></div>
+  </div>
+</div>
+
+<!-- 挑战失败弹层 -->
+<div id="overlay-fail" class="overlay hidden">
+  <div class="win-panel">
+    <h2 style="font-size:26px">⚡ 挑战失败</h2>
+    <p class="win-quote" id="fail-reason"></p>
+    <div class="win-btns">
+      <button class="btn primary" id="btn-fail-retry">再挑战一次</button>
+      <button class="btn" id="btn-fail-continue">不限时继续</button>
+      <button class="btn" id="btn-fail-menu">返回选关</button>
+    </div>
+  </div>
+</div>
+
+<!-- 成就解锁提示 -->
+<div id="toast"></div>
 
 <script>
 'use strict';
@@ -371,10 +553,17 @@ const CHARS = {
   shenmeizhuang:{ name: '沈眉庄', role: '惠妃',   c1: '#7c5fa0', c2: '#a98fd0' },
   wentaiyi:     { name: '温太医', role: '太医',   c1: '#2f5f7d', c2: '#4f90b5' },
   guojunwang:   { name: '果郡王', role: '亲王',   c1: '#2f4f8f', c2: '#5577c4' },
-  jingxi:       { name: '槿汐',   role: '宫人',   c1: '#a85f5f', c2: '#d39a9a' },
+  jingxi:       { name: '槿汐',   role: '姑姑',   c1: '#a85f5f', c2: '#d39a9a' },
   huanbi:       { name: '浣碧',   role: '宫人',   c1: '#5f8aa8', c2: '#9ac4de' },
   liuzhu:       { name: '流朱',   role: '宫人',   c1: '#a8875f', c2: '#d4b48a' },
   yunzi:        { name: '小允',   role: '宫人',   c1: '#7a7a8c', c2: '#b4b4c4' },
+  duanfei:      { name: '端妃',   role: '端妃',   c1: '#8a7fa8', c2: '#b3a9cc' },
+  jingfei:      { name: '敬妃',   role: '敬妃',   c1: '#a8783f', c2: '#d0a269' },
+  caoguiren:    { name: '曹贵人', role: '贵人',   c1: '#96854f', c2: '#c2b378' },
+  yelanyi:      { name: '叶澜依', role: '宁贵人', c1: '#1f4f42', c2: '#3d7d6a' },
+  qiguiren:     { name: '祺贵人', role: '贵人',   c1: '#c04a6a', c2: '#e07893' },
+  supeisheng:   { name: '苏培盛', role: '太监总管', c1: '#3f5566', c2: '#6a8598' },
+  chuner:       { name: '淳儿',   role: '淳常在', c1: '#d98a9a', c2: '#f0b8c3' },
 };
 
 const WIN_QUOTES = [
@@ -405,6 +594,13 @@ const AVATARS = {
   huanbi:        { robe:'#5f8aa8', robe2:'#3f6682', trim:'#d8e8f2', skin:'#f6dfc3', hair:'#241b16', collar:'#eef4f8', brow:'flat',  eye:'dot',     mouth:'soft',  head:'shuangji' },
   liuzhu:        { robe:'#a8875f', robe2:'#7d6443', trim:'#f2dd8e', skin:'#f6dfc3', hair:'#241b16', collar:'#f7efd8', brow:'up',    eye:'dot',     mouth:'smile', head:'shuangji' },
   yunzi:         { robe:'#7a7a8c', robe2:'#55556a', trim:'#d8d8e8', skin:'#f6dfc3', hair:'#241b16', collar:'#eef0f5', brow:'down',  eye:'dot',     mouth:'flat',  head:'taijian' },
+  duanfei:      { robe:'#8a7fa8', robe2:'#5f5480', trim:'#e8c66a', skin:'#f6dfc3', hair:'#241b16', collar:'#f3e3c3', brow:'down',  eye:'line',    mouth:'soft',  head:'dianzi',   flower:'#e8e2f2' },
+  jingfei:      { robe:'#a8783f', robe2:'#7d5830', trim:'#e8c66a', skin:'#f6dfc3', hair:'#241b16', collar:'#f3e3c3', brow:'flat',  eye:'line',    mouth:'flat',  head:'dianzi',   flower:'#e0b060' },
+  caoguiren:    { robe:'#96854f', robe2:'#6e6138', trim:'#e8c66a', skin:'#f6dfc3', hair:'#241b16', collar:'#f3e3c3', brow:'up',    eye:'phoenix', mouth:'smirk', head:'dianzi',   flower:'#d8c05a' },
+  yelanyi:      { robe:'#1f4f42', robe2:'#123430', trim:'#8fc9b0', skin:'#f6dfc3', hair:'#241b16', collar:'#d8f0e5', brow:'flat',  eye:'phoenix', mouth:'flat',  head:'dianzi',   flower:'#5fae8f' },
+  qiguiren:     { robe:'#c04a6a', robe2:'#8f3450', trim:'#e8c66a', skin:'#f6dfc3', hair:'#241b16', collar:'#f3e3c3', brow:'up',    eye:'phoenix', mouth:'smirk', head:'qitou',    flower:'#e05a7a' },
+  supeisheng:   { robe:'#3f5566', robe2:'#2a3b48', trim:'#b8ccd8', skin:'#f6dfc3', hair:'#241b16', collar:'#e8f0f5', brow:'flat',  eye:'dot',     mouth:'smile', head:'taijian' },
+  chuner:       { robe:'#d98a9a', robe2:'#a86677', trim:'#f5d8e0', skin:'#f6dfc3', hair:'#241b16', collar:'#fdeef2', brow:'up',    eye:'dot',     mouth:'smile', head:'shuangji' },
 };
 const BROWS = {
   flat:  '<path d="M41.5 44.8 Q45 43.4 48.5 44.8" stroke="#2a1f18" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M51.5 44.8 Q55 43.4 58.5 44.8" stroke="#2a1f18" stroke-width="1.5" fill="none" stroke-linecap="round"/>',
@@ -495,42 +691,114 @@ function avatarSVG(p, size) {
    所有布局均经 BFS 验证可解，最优步数即「参考步数」
    -------------------------------------------------- */
 const LEVELS_DATA = /*DATA_START*/[
-  { id:'l1',  name:'惊鸿一舞', diff:0, hero:[1,0], v:[[3,1],[3,0],[1,2],[1,3]], h:[0,1], s:[[0,0],[0,3],[3,2],[4,2]],
+  { id:'l1', name:'杏花微雨', diff:0, hero:[2,0], v:[[2,2],[0,1],[2,3],[0,0]], h:[0,2], s:[[1,2],[4,0],[4,1],[4,3]],
+    quote:'杏花微雨里，吹笛到天明。',
+    cast:{ v:['duanfei','jingfei','yelanyi','caoguiren'], h:'guojunwang', s:['chuner','liuzhu','huanbi','yunzi'] } },
+  { id:'l2', name:'秋千架', diff:0, hero:[2,0], v:[[3,3],[0,0],[1,3],[2,2]], h:[0,2], s:[[1,1],[4,0],[4,1],[4,2]],
+    quote:'墙里秋千墙外道。',
+    cast:{ v:['huanghou','qiguiren','duanfei','wentaiyi'], h:'supeisheng', s:['chuner','jingxi','huanbi','liuzhu'] } },
+  { id:'l3', name:'惊鸿一舞', diff:0, hero:[1,0], v:[[3,1],[3,0],[1,2],[1,3]], h:[0,1], s:[[0,0],[0,3],[3,2],[4,2]],
     quote:'翩若惊鸿，婉若游龙。',
     cast:{ v:['huanghou','huafei','anlingrong','shenmeizhuang'], h:'huangshang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
-  { id:'l2',  name:'御前承恩', diff:0, hero:[1,1], v:[[3,1],[3,3],[1,0],[3,2]], h:[0,1], s:[[0,0],[0,3],[3,0],[4,0]],
+  { id:'l4', name:'御前承恩', diff:0, hero:[1,1], v:[[3,1],[3,3],[1,0],[3,2]], h:[0,1], s:[[0,0],[0,3],[3,0],[4,0]],
     quote:'愿得一心人，白首不相离。',
     cast:{ v:['huafei','anlingrong','shenmeizhuang','wentaiyi'], h:'guojunwang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
-  { id:'l3',  name:'倚梅园',   diff:0, hero:[1,2], v:[[1,0],[3,1],[3,0],[3,3]], h:[0,1], s:[[0,0],[0,3],[3,2],[4,2]],
+  { id:'l5', name:'菀菀类卿', diff:0, hero:[0,2], v:[[3,3],[1,0],[2,2],[3,0]], h:[0,0], s:[[2,1],[2,3],[4,1],[4,2]],
+    quote:'菀菀类卿，终究不是卿。',
+    cast:{ v:['huafei','jingfei','anlingrong','yelanyi'], h:'huangshang', s:['jingxi','chuner','liuzhu','yunzi'] } },
+  { id:'l6', name:'上元灯会', diff:0, hero:[1,1], v:[[2,3],[3,1],[0,0],[3,2]], h:[0,2], s:[[0,1],[1,3],[2,0],[3,0]],
+    quote:'月上柳梢头，人约黄昏后。',
+    cast:{ v:['shenmeizhuang','caoguiren','duanfei','qiguiren'], h:'guojunwang', s:['jingxi','huanbi','chuner','yunzi'] } },
+  { id:'l7', name:'倚梅园', diff:0, hero:[1,2], v:[[1,0],[3,1],[3,0],[3,3]], h:[0,1], s:[[0,0],[0,3],[3,2],[4,2]],
     quote:'逆风如解意，容易莫摧残。',
     cast:{ v:['huanghou','huafei','wentaiyi','shenmeizhuang'], h:'huangshang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
-  { id:'l4',  name:'碎玉轩',   diff:0, hero:[0,1], v:[[1,0],[1,3],[3,0],[3,3]], h:[3,1], s:[[0,0],[0,3],[2,1],[2,2]],
+  { id:'l8', name:'惊蛰', diff:0, hero:[3,2], v:[[0,0],[2,0],[0,1],[2,1]], h:[4,0], s:[[0,2],[1,2],[1,3],[2,2]],
+    quote:'惊蛰春雷，万物始新。',
+    cast:{ v:['duanfei','jingfei','yelanyi','caoguiren'], h:'guojunwang', s:['chuner','liuzhu','huanbi','yunzi'] } },
+  { id:'l9', name:'一盏宫灯', diff:0, hero:[2,1], v:[[0,1],[3,0],[2,3],[0,2]], h:[4,2], s:[[0,3],[1,3],[2,0],[4,1]],
+    quote:'深宫夜长，一灯如豆。',
+    cast:{ v:['huanghou','qiguiren','duanfei','wentaiyi'], h:'supeisheng', s:['chuner','jingxi','huanbi','liuzhu'] } },
+  { id:'l10', name:'碎玉轩', diff:0, hero:[0,1], v:[[1,0],[1,3],[3,0],[3,3]], h:[3,1], s:[[0,0],[0,3],[2,1],[2,2]],
     quote:'花开花落自有时，总赖东君主。',
     cast:{ v:['huanghou','anlingrong','shenmeizhuang','wentaiyi'], h:'guojunwang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
-  { id:'l5',  name:'椒房之宠', diff:1, hero:[1,1], v:[[0,0],[0,3],[2,0],[2,3]], h:[3,1], s:[[0,1],[0,2],[4,0],[4,3]],
+  { id:'l11', name:'圆明园', diff:0, hero:[2,1], v:[[0,1],[2,0],[2,3],[0,0]], h:[4,1], s:[[0,3],[1,2],[1,3],[4,3]],
+    quote:'夏日迟迟圆明园。',
+    cast:{ v:['huafei','jingfei','anlingrong','yelanyi'], h:'huangshang', s:['jingxi','chuner','liuzhu','yunzi'] } },
+  { id:'l12', name:'淳儿', diff:0, hero:[1,1], v:[[2,3],[0,3],[3,0],[3,1]], h:[4,2], s:[[0,0],[0,2],[1,0],[3,2]],
+    quote:'淳儿：姐姐最好了。',
+    cast:{ v:['shenmeizhuang','caoguiren','duanfei','qiguiren'], h:'guojunwang', s:['jingxi','huanbi','chuner','yunzi'] } },
+  { id:'l13', name:'木薯粉', diff:1, hero:[1,0], v:[[0,3],[1,2],[3,0],[3,1]], h:[4,2], s:[[0,1],[0,2],[2,3],[3,2]],
+    quote:'一碗木薯粉，几多委屈。',
+    cast:{ v:['duanfei','jingfei','yelanyi','caoguiren'], h:'guojunwang', s:['chuner','liuzhu','huanbi','yunzi'] } },
+  { id:'l14', name:'安栖观', diff:1, hero:[2,2], v:[[2,1],[0,3],[3,0],[0,1]], h:[4,2], s:[[0,0],[0,2],[1,0],[2,0]],
+    quote:'道观清修，静待来日。',
+    cast:{ v:['huanghou','qiguiren','duanfei','wentaiyi'], h:'supeisheng', s:['chuner','jingxi','huanbi','liuzhu'] } },
+  { id:'l15', name:'舒痕胶', diff:1, hero:[1,1], v:[[3,0],[1,0],[0,3],[2,3]], h:[3,1], s:[[0,1],[4,1],[4,2],[4,3]],
+    quote:'舒痕胶里，竟藏麝香。',
+    cast:{ v:['huafei','jingfei','anlingrong','yelanyi'], h:'huangshang', s:['jingxi','chuner','liuzhu','yunzi'] } },
+  { id:'l16', name:'长相思', diff:1, hero:[0,2], v:[[3,0],[2,3],[3,1],[0,1]], h:[2,1], s:[[0,0],[1,0],[4,2],[4,3]],
+    quote:'长相思，摧心肝。',
+    cast:{ v:['shenmeizhuang','caoguiren','duanfei','qiguiren'], h:'guojunwang', s:['jingxi','huanbi','chuner','yunzi'] } },
+  { id:'l17', name:'冰嬉舞', diff:1, hero:[0,2], v:[[3,3],[2,2],[3,0],[2,1]], h:[4,1], s:[[0,0],[1,0],[2,0],[2,3]],
+    quote:'冰上一舞，绝代风华。',
+    cast:{ v:['duanfei','jingfei','yelanyi','caoguiren'], h:'guojunwang', s:['chuner','liuzhu','huanbi','yunzi'] } },
+  { id:'l18', name:'滴血验亲', diff:1, hero:[0,1], v:[[3,1],[2,3],[2,2],[3,0]], h:[2,0], s:[[0,0],[1,0],[1,3],[4,2]],
+    quote:'臣妾冤枉！臣妾没有！',
+    cast:{ v:['huanghou','qiguiren','duanfei','wentaiyi'], h:'supeisheng', s:['chuner','jingxi','huanbi','liuzhu'] } },
+  { id:'l19', name:'纯元故衣', diff:1, hero:[0,0], v:[[3,2],[3,0],[1,2],[1,3]], h:[2,0], s:[[0,2],[0,3],[3,1],[4,3]],
+    quote:'错就错在这一件故衣。',
+    cast:{ v:['huafei','jingfei','anlingrong','yelanyi'], h:'huangshang', s:['jingxi','chuner','liuzhu','yunzi'] } },
+  { id:'l20', name:'景仁宫', diff:1, hero:[1,2], v:[[1,0],[3,3],[2,1],[3,2]], h:[4,0], s:[[0,1],[0,3],[1,1],[3,0]],
+    quote:'臣妾做不到啊！',
+    cast:{ v:['shenmeizhuang','caoguiren','duanfei','qiguiren'], h:'guojunwang', s:['jingxi','huanbi','chuner','yunzi'] } },
+  { id:'l21', name:'椒房之宠', diff:1, hero:[1,1], v:[[0,0],[0,3],[2,0],[2,3]], h:[3,1], s:[[0,1],[0,2],[4,0],[4,3]],
     quote:'椒房恩宠，烈火烹油。',
     cast:{ v:['huanghou','huafei','anlingrong','shenmeizhuang'], h:'huangshang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
-  { id:'l6',  name:'永寿宫',   diff:1, hero:[0,1], v:[[0,0],[0,3],[3,0],[3,3]], h:[3,1], s:[[2,0],[2,1],[2,2],[2,3]],
+  { id:'l22', name:'永寿宫', diff:1, hero:[0,1], v:[[0,0],[0,3],[3,0],[3,3]], h:[3,1], s:[[2,0],[2,1],[2,2],[2,3]],
     quote:'宁可枝头抱香死，何曾吹落北风中。',
     cast:{ v:['huafei','anlingrong','shenmeizhuang','wentaiyi'], h:'guojunwang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
-  { id:'l7',  name:'翊坤宫',   diff:1, hero:[1,1], v:[[1,0],[1,3],[3,0],[3,3]], h:[3,1], s:[[0,1],[0,2],[4,1],[4,2]],
+  { id:'l23', name:'翊坤宫', diff:1, hero:[1,1], v:[[1,0],[1,3],[3,0],[3,3]], h:[3,1], s:[[0,1],[0,2],[4,1],[4,2]],
     quote:'本宫偏要争一争这恩宠。',
     cast:{ v:['huanghou','huafei','anlingrong','wentaiyi'], h:'huangshang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
-  { id:'l8',  name:'甘露寺',   diff:1, hero:[1,1], v:[[1,0],[1,3],[3,0],[3,3]], h:[3,1], s:[[0,0],[0,1],[4,1],[4,2]],
+  { id:'l24', name:'甘露寺', diff:1, hero:[1,1], v:[[1,0],[1,3],[3,0],[3,3]], h:[3,1], s:[[0,0],[0,1],[4,1],[4,2]],
     quote:'古寺青灯，岁月静好。',
     cast:{ v:['huanghou','anlingrong','shenmeizhuang','wentaiyi'], h:'guojunwang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
-  { id:'l9',  name:'凤仪宫',   diff:2, hero:[0,1], v:[[0,0],[0,3],[2,0],[2,3]], h:[3,1], s:[[2,1],[2,2],[4,0],[4,3]],
+  { id:'l25', name:'剪秋', diff:2, hero:[0,2], v:[[2,2],[3,1],[0,0],[2,0]], h:[4,2], s:[[0,1],[1,1],[2,1],[3,3]],
+    quote:'奴婢一心只为皇后。',
+    cast:{ v:['duanfei','jingfei','yelanyi','caoguiren'], h:'guojunwang', s:['chuner','liuzhu','huanbi','yunzi'] } },
+  { id:'l26', name:'血燕窝', diff:2, hero:[0,0], v:[[3,1],[0,2],[2,2],[3,0]], h:[2,0], s:[[0,3],[2,3],[4,2],[4,3]],
+    quote:'一盏血燕，暗藏杀机。',
+    cast:{ v:['huanghou','qiguiren','duanfei','wentaiyi'], h:'supeisheng', s:['chuner','jingxi','huanbi','liuzhu'] } },
+  { id:'l27', name:'慎刑司', diff:2, hero:[0,2], v:[[3,3],[3,2],[2,0],[2,1]], h:[2,2], s:[[0,1],[1,0],[4,0],[4,1]],
+    quote:'慎刑司内，唯有熬。',
+    cast:{ v:['huafei','jingfei','anlingrong','yelanyi'], h:'huangshang', s:['jingxi','chuner','liuzhu','yunzi'] } },
+  { id:'l28', name:'凤仪宫', diff:2, hero:[0,1], v:[[0,0],[0,3],[2,0],[2,3]], h:[3,1], s:[[2,1],[2,2],[4,0],[4,3]],
     quote:'凤仪天下，众矢之的。',
     cast:{ v:['huanghou','huafei','anlingrong','shenmeizhuang'], h:'huangshang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
-  { id:'l10', name:'凌云峰',   diff:2, hero:[0,1], v:[[1,0],[1,3],[3,0],[3,3]], h:[2,1], s:[[3,1],[3,2],[4,1],[4,2]],
+  { id:'l29', name:'钮祜禄回宫', diff:2, hero:[1,2], v:[[3,0],[3,1],[3,2],[3,3]], h:[2,0], s:[[0,1],[0,2],[0,3],[1,0]],
+    quote:'钮祜禄·甄嬛，今日回宫。',
+    cast:{ v:['shenmeizhuang','caoguiren','duanfei','qiguiren'], h:'guojunwang', s:['jingxi','huanbi','chuner','yunzi'] } },
+  { id:'l30', name:'夺嫡之夜', diff:2, hero:[0,1], v:[[1,0],[3,2],[0,3],[3,3]], h:[3,0], s:[[0,0],[2,1],[2,2],[4,0]],
+    quote:'成王败寇，在此一夜。',
+    cast:{ v:['duanfei','jingfei','yelanyi','caoguiren'], h:'guojunwang', s:['chuner','liuzhu','huanbi','yunzi'] } },
+  { id:'l31', name:'乾元殿', diff:2, hero:[0,2], v:[[0,0],[2,0],[3,1],[0,1]], h:[4,2], s:[[2,1],[2,3],[3,3],[4,0]],
+    quote:'帝王心术，深不可测。',
+    cast:{ v:['huanghou','qiguiren','duanfei','wentaiyi'], h:'supeisheng', s:['chuner','jingxi','huanbi','liuzhu'] } },
+  { id:'l32', name:'凌云峰', diff:2, hero:[0,1], v:[[1,0],[1,3],[3,0],[3,3]], h:[2,1], s:[[3,1],[3,2],[4,1],[4,2]],
     quote:'凌云峰上，风刀霜剑。',
     cast:{ v:['huafei','anlingrong','shenmeizhuang','wentaiyi'], h:'guojunwang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
-  { id:'l11', name:'养心殿',   diff:2, hero:[0,1], v:[[0,0],[0,3],[2,0],[2,3]], h:[2,1], s:[[3,1],[3,2],[4,0],[4,3]],
+  { id:'l33', name:'养心殿', diff:2, hero:[0,1], v:[[0,0],[0,3],[2,0],[2,3]], h:[2,1], s:[[3,1],[3,2],[4,0],[4,3]],
     quote:'雷霆雨露，皆是君恩。',
     cast:{ v:['huanghou','huafei','wentaiyi','shenmeizhuang'], h:'huangshang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
-  { id:'l12', name:'凤临天下', diff:2, hero:[1,1], v:[[0,0],[0,3],[2,0],[2,3]], h:[3,1], s:[[4,0],[4,1],[4,2],[4,3]],
+  { id:'l34', name:'凤临天下', diff:2, hero:[1,1], v:[[0,0],[0,3],[2,0],[2,3]], h:[3,1], s:[[4,0],[4,1],[4,2],[4,3]],
     quote:'臣妾，要这天下再无负心之人。',
     cast:{ v:['huanghou','huafei','anlingrong','shenmeizhuang'], h:'guojunwang', s:['jingxi','huanbi','liuzhu','yunzi'] } },
+  { id:'l35', name:'桐花台', diff:2, hero:[0,1], v:[[1,3],[3,3],[3,1],[1,0]], h:[2,1], s:[[0,0],[3,0],[3,2],[4,2]],
+    quote:'桐花台上，恩断义绝。',
+    cast:{ v:['huafei','jingfei','anlingrong','yelanyi'], h:'huangshang', s:['jingxi','chuner','liuzhu','yunzi'] } },
+  { id:'l36', name:'神武门', diff:2, hero:[0,1], v:[[3,2],[3,0],[1,3],[1,0]], h:[2,1], s:[[0,3],[3,1],[4,1],[4,3]],
+    quote:'出了神武门，天高海阔。',
+    cast:{ v:['shenmeizhuang','caoguiren','duanfei','qiguiren'], h:'guojunwang', s:['jingxi','huanbi','chuner','yunzi'] } },
 ]/*DATA_END*/;
 
 const DIFF_NAMES = ['简单', '中等', '困难'];
@@ -539,18 +807,181 @@ const DIRS = [[-1,0],[1,0],[0,-1],[0,1]]; // 上 下 左 右
 const REF_CACHE = {};   // levelId -> 最优步数（BFS 计算后缓存）
 const $ = id => document.getElementById(id);
 
-/* ---------------- 存档 ---------------- */
-const SAVE_KEY = 'zhenhuanHRD_v1';
-let save = { best: {}, unlock: 0, muted: false };
+/* ---------------- 存档（v2，带版本迁移） ---------------- */
+const SAVE_KEY = 'zhenhuanHRD_v2';
+const SAVE_KEY_V1 = 'zhenhuanHRD_v1';
+const SAVE_VERSION = 2;
+function defaultSave() {
+  return {
+    version: SAVE_VERSION,
+    best: {},            // levelId -> {stars, moves, seconds}
+    unlock: 0,
+    muted: false,
+    challengeOn: false,  // 挑战模式开关
+    challenge: {},       // levelId -> true（挑战通关标记）
+    custom: [],          // 自定义关卡 {id,name,hero,v,h,s,optimal,best}
+    stats: { totalWins: 0, totalMoves: 0, totalTimeSec: 0, noHintWins: 0, perfectWins: 0, customWins: 0, diffWins: [0, 0, 0], challengeWins: 0 },
+    ach: {},             // 成就 id -> true
+  };
+}
+let save = defaultSave();
+function migrateSave(d) {
+  const s = defaultSave();
+  if (!d || typeof d !== 'object') return s;
+  if (d.version === SAVE_VERSION) {
+    s.best = (d.best && typeof d.best === 'object') ? d.best : {};
+    s.unlock = d.unlock | 0;
+    s.muted = !!d.muted;
+    s.challengeOn = !!d.challengeOn;
+    s.challenge = (d.challenge && typeof d.challenge === 'object') ? d.challenge : {};
+    if (Array.isArray(d.custom)) s.custom = d.custom.filter(c => c && c.hero && c.v && c.h && c.s);
+    if (d.stats) Object.assign(s.stats, d.stats);
+    if (d.ach && typeof d.ach === 'object') s.ach = d.ach;
+    return s;
+  }
+  // v1（无版本号字段）→ v2
+  s.best = (d.best && typeof d.best === 'object') ? d.best : {};
+  s.unlock = d.unlock | 0;
+  s.muted = !!d.muted;
+  // v1 关卡 id 重映射：v1.2 关卡扩到 36 关后编号变化，按关卡名对应到新 id
+  const V1_REMAP = { l1: 'l3', l2: 'l4', l3: 'l7', l4: 'l10', l5: 'l21', l6: 'l22', l7: 'l23', l8: 'l24', l9: 'l28', l10: 'l32', l11: 'l33', l12: 'l34' };
+  const remapped = {};
+  for (const [k, v] of Object.entries(s.best)) {
+    const nk = V1_REMAP[k] || k;
+    if (!remapped[nk]) remapped[nk] = v;
+  }
+  s.best = remapped;
+  return s;
+}
 function loadSave() {
   try {
-    const raw = localStorage.getItem(SAVE_KEY);
-    if (raw) { const d = JSON.parse(raw); if (d && typeof d === 'object') save = Object.assign(save, d); }
+    let raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) raw = localStorage.getItem(SAVE_KEY_V1); // 旧版迁移
+    if (raw) save = migrateSave(JSON.parse(raw));
   } catch (e) {}
   muted = !!save.muted;
 }
 function persistSave() {
   try { localStorage.setItem(SAVE_KEY, JSON.stringify(save)); } catch (e) {}
+}
+
+/* ---------------- 成就 ---------------- */
+const ACHS = [
+  { id: 'first_win',  icon: '🏮', name: '初入宫廷', desc: '通关第一个关卡' },
+  { id: 'easy_clear', icon: '🌸', name: '小主得宠', desc: '通关全部简单关卡（12 关）' },
+  { id: 'med_clear',  icon: '💎', name: '妃位晋封', desc: '通关全部中等关卡（12 关）' },
+  { id: 'hard_clear', icon: '👑', name: '凤仪天下', desc: '通关全部困难关卡（12 关）' },
+  { id: 'all_star',   icon: '✨', name: '六宫无匹', desc: '全部关卡获得三星' },
+  { id: 'perfect',    icon: '🎯', name: '分毫不差', desc: '以最优步数通关任意一关' },
+  { id: 'nohint10',   icon: '🧠', name: '心明眼亮', desc: '无提示无演示通关 10 次' },
+  { id: 'wins50',     icon: '🏯', name: '深宫常客', desc: '累计通关 50 次' },
+  { id: 'speed',      icon: '⚡', name: '风驰电掣', desc: '挑战模式（限时限步）通关任意一关' },
+  { id: 'chall_all',  icon: '🔥', name: '百炼成钢', desc: '全部关卡完成挑战模式' },
+  { id: 'editor',     icon: '🎨', name: '造物之才', desc: '在编辑器中保存一个可解关卡' },
+  { id: 'custom_win', icon: '🛠', name: '巧手匠心', desc: '通关一个自定义关卡' },
+];
+function checkAchievements() {
+  const t = LEVELS_DATA.length;
+  const cleared = d => LEVELS_DATA.filter(l => l.diff === d && save.best[l.id]).length;
+  const allThree = () => LEVELS_DATA.every(l => save.best[l.id] && save.best[l.id].stars >= 3);
+  const allChall = () => LEVELS_DATA.every(l => save.challenge[l.id]);
+  const cond = {
+    first_win:  save.stats.totalWins >= 1,
+    easy_clear: cleared(0) >= 12,
+    med_clear:  cleared(1) >= 12,
+    hard_clear: cleared(2) >= 12,
+    all_star:   allThree(),
+    perfect:    save.stats.perfectWins >= 1,
+    nohint10:   save.stats.noHintWins >= 10,
+    wins50:     save.stats.totalWins >= 50,
+    speed:      save.stats.challengeWins >= 1,
+    chall_all:  allChall(),
+    editor:     save.custom.length >= 1,
+    custom_win: save.stats.customWins >= 1,
+  };
+  let changed = false;
+  for (const a of ACHS) {
+    if (cond[a.id] && !save.ach[a.id]) {
+      save.ach[a.id] = true;
+      changed = true;
+      toast(`🏆 成就解锁：${a.icon} ${a.name}`);
+    }
+  }
+  if (changed) persistSave();
+}
+let toastTimer = null, toastQueue = [];
+function toast(msg) {
+  toastQueue.push(msg);
+  if (toastTimer) return;
+  const el = () => document.getElementById('toast');
+  const next = () => {
+    if (!toastQueue.length) { toastTimer = null; el().classList.remove('show'); return; }
+    el().textContent = toastQueue.shift();
+    el().classList.add('show');
+    toastTimer = setTimeout(next, 2400);
+  };
+  next();
+}
+
+/* ---------------- 分享码（编辑器用，纯函数） ---------------- */
+const SHARE_ALPHA = '0123456789ABCDEFGHIJ';        // 位置 0-19
+const CHECK_ALPHA = '0123456789abcdefghijklmnopqrstuvwxyz'; // 校验 0-35
+function layoutPositions(lv) {
+  return [lv.hero, ...lv.v, lv.h, ...lv.s].map(([r, c]) => r * COLS + c);
+}
+function encodeShare(lv) {
+  const pos = layoutPositions(lv);
+  let code = 'Z';
+  for (const p of pos) code += SHARE_ALPHA[p];
+  const sum = pos.reduce((a, b) => a + b, 0);
+  code += CHECK_ALPHA[(sum * 7 + 3) % 36];
+  return code;
+}
+function decodeShare(code) {
+  if (typeof code !== 'string') return null;
+  const s = code.trim().toUpperCase();
+  if (!/^Z[0-9A-J]{10}[0-9A-Z]$/.test(s)) return null;
+  const pos = [];
+  for (let i = 1; i <= 10; i++) {
+    const v = SHARE_ALPHA.indexOf(s[i]);
+    if (v < 0) return null;
+    pos.push(v);
+  }
+  const sum = pos.reduce((a, b) => a + b, 0);
+  if (CHECK_ALPHA[(sum * 7 + 3) % 36] !== s[11].toLowerCase()) return null;
+  return {
+    hero: [Math.floor(pos[0] / 4), pos[0] % 4],
+    v: [1, 2, 3, 4].map(i => [Math.floor(pos[i] / 4), pos[i] % 4]),
+    h: [Math.floor(pos[5] / 4), pos[5] % 4],
+    s: pos.slice(6, 10).map(p => [Math.floor(p / 4), p % 4]),
+  };
+}
+/* 布局校验（纯函数）：构成/重叠/越界 -> {ok, msg, layout?} */
+function validateLayout(lv) {
+  const pieces = [
+    { t: 'H', row: lv.hero[0], col: lv.hero[1], w: 2, h: 2 },
+    ...lv.v.map(([row, col]) => ({ t: 'V', row, col, w: 1, h: 2 })),
+    { t: 'B', row: lv.h[0], col: lv.h[1], w: 2, h: 1 },
+    ...lv.s.map(([row, col]) => ({ t: 'S', row, col, w: 1, h: 1 })),
+  ];
+  const g = new Array(COLS * ROWS).fill(0);
+  for (const p of pieces) {
+    for (let a = 0; a < p.h; a++) for (let b = 0; b < p.w; b++) {
+      const r = p.row + a, c = p.col + b;
+      if (r < 0 || c < 0 || r >= ROWS || c >= COLS) return { ok: false, msg: '有棋子超出棋盘' };
+      if (g[r * COLS + c]) return { ok: false, msg: '有棋子重叠' };
+      g[r * COLS + c] = 1;
+    }
+  }
+  const empty = g.filter(x => !x).length;
+  if (empty !== 2) return { ok: false, msg: `空格数应为 2，当前 ${empty}` };
+  const cnt = { H: 0, V: 0, B: 0, S: 0 };
+  pieces.forEach(p => cnt[p.t]++);
+  if (cnt.H !== 1) return { ok: false, msg: '甄嬛（2×2）必须恰好 1 个' };
+  if (cnt.V !== 4) return { ok: false, msg: `竖将（1×2）必须 4 个，当前 ${cnt.V}` };
+  if (cnt.B !== 1) return { ok: false, msg: `横将（2×1）必须 1 个，当前 ${cnt.B}` };
+  if (cnt.S !== 4) return { ok: false, msg: `兵（1×1）必须 4 个，当前 ${cnt.S}` };
+  return { ok: true, msg: '' };
 }
 
 /* ---------------- 棋子构建 ---------------- */
@@ -638,19 +1069,25 @@ let cell = 88;  // 每格像素
 
 function startLevel(lv) {
   stopTimer();
+  stopDemo(true);
   S = {
     level: lv,
     pieces: buildPieces(lv),
     hist: [], trace: [], moves: 0, seconds: 0, timerId: null,
-    selected: null, ref: null, started: false, win: false,
-    hint: null,
+    selected: null, ref: lv.custom ? (lv.optimal ?? null) : null,
+    started: false, win: false,
+    hint: null, hintUsed: false, demoUsed: false, demo: null,
+    isCustom: !!lv.custom, challenge: null, chLeft: null,
   };
   hintBusy = false;
   $('btn-hint').textContent = '提示';
   $('btn-hint').disabled = false;
+  $('btn-demo').textContent = '演示';
   renderHint();
-  const badge = `<span class="badge d${lv.diff}">${DIFF_NAMES[lv.diff]}</span>`;
-  $('level-title').innerHTML = lv.name + badge;
+  const badge = lv.custom
+    ? '<span class="badge d3">自制</span>'
+    : `<span class="badge d${lv.diff}">${DIFF_NAMES[lv.diff]}</span>`;
+  $('level-title').innerHTML = (lv.quote ? '' : '') + lv.name + badge;
   // 本关阵容条（角色立绘）
   $('cast').innerHTML = S.pieces
     .map(p => `<span class="cast-item" title="${p.name} · ${p.role}">${avatarSVG(p, 24)}${p.name}</span>`)
@@ -659,11 +1096,16 @@ function startLevel(lv) {
   buildBoard();
   updateStats();
   SFX.select();
-  // 参考步数异步计算，避免阻塞首帧
+  if (lv.custom) return; // 自定义关：参考步数已预存
+  // 参考步数异步计算，避免阻塞首帧；随后初始化挑战模式限额
   setTimeout(() => {
     if (!S || S.level.id !== lv.id) return;
     if (REF_CACHE[lv.id] == null) REF_CACHE[lv.id] = solveOptimal(lv);
     S.ref = REF_CACHE[lv.id];
+    if (save.challengeOn && !S.isCustom && S.ref > 0) {
+      S.challenge = { limitSec: 60 + S.ref * 6, movesLimit: Math.ceil(S.ref * 1.5) };
+      S.chLeft = S.challenge.limitSec;
+    }
     updateStats();
   }, 30);
 }
@@ -673,9 +1115,30 @@ function setScreen(which) {
   $('screen-game').classList.toggle('hidden', which !== 'game');
 }
 
-/* ---------------- 计时 ---------------- */
+/* ---------------- 计时（含挑战模式倒计时） ---------------- */
 function startTimer() {
-  S.timerId = setInterval(() => { if (!S || S.win) return; S.seconds++; updateStats(); }, 1000);
+  S.timerId = setInterval(() => {
+    if (!S || S.win) return;
+    S.seconds++;
+    if (S.challenge && S.started) {
+      S.chLeft--;
+      if (S.chLeft <= 0) { failChallenge('time'); return; }
+    }
+    updateStats();
+  }, 1000);
+}
+function failChallenge(reason) {
+  if (!S || !S.challenge || S.win) return;
+  S.challenge = null;
+  S.chLeft = null;
+  stopDemo(true);
+  stopTimer();
+  SFX.blocked();
+  $('fail-reason').textContent = reason === 'time'
+    ? '时间耗尽！'
+    : '超过步数上限！';
+  $('overlay-fail').classList.remove('hidden');
+  updateStats();
 }
 function stopTimer() { if (S && S.timerId) { clearInterval(S.timerId); S.timerId = null; } }
 function fmtTime(s) {
@@ -702,8 +1165,9 @@ function canSlide(p, dir, grid) {
   for (const ci of edge) if (grid[ci]) return false;
   return true;
 }
-function tryMove(pi, dir) {
+function tryMove(pi, dir, byDemo) {
   if (!S || S.win) return false;
+  if (S.demo && !byDemo) stopDemo(); // 用户手动操作时停止演示
   const p = S.pieces[pi];
   if (!canSlide(p, dir, occupancy(S.pieces))) { SFX.blocked(); return false; }
   S.hist.push(S.pieces.map(x => [x.row, x.col]));
@@ -725,12 +1189,15 @@ function tryMove(pi, dir) {
   renderHint();
   updateBoard();
   updateStats();
+  // 挑战模式：步数超限即失败
+  if (S.challenge && S.moves > S.challenge.movesLimit) { failChallenge('moves'); return true; }
   if (isWin()) onWin();
   return true;
 }
 function isWin() { const h = S.pieces[0]; return h.row === 3 && h.col === 1; }
 function undo() {
   if (!S || S.win || !S.hist.length) return;
+  if (S.demo) stopDemo();
   const prev = S.hist.pop();
   const t = S.trace.pop();
   S.pieces.forEach((p, i) => { p.row = prev[i][0]; p.col = prev[i][1]; });
@@ -759,8 +1226,9 @@ const DIR_NAMES = ['上', '下', '左', '右'];
 const DIR_GLYPHS = ['▲', '▼', '◀', '▶'];
 let hintBusy = false;
 function computeHint() {
-  if (!S || S.win || hintBusy || S.hint) return;
+  if (!S || S.win || hintBusy || S.hint || S.demo) return;
   hintBusy = true;
+  S.hintUsed = true;
   const lvId = S.level.id;
   $('btn-hint').textContent = '思考中';
   $('btn-hint').disabled = true;
@@ -791,6 +1259,50 @@ function renderHint() {
     box.textContent = '';
   }
 }
+
+/* ---------------- 演示模式 ----------------
+   自动播放当前局面的最优解；演示后本局不再计入纪录 */
+function toggleDemo() {
+  if (!S || S.win) return;
+  if (S.demo) { stopDemo(); return; }
+  if (demoBusy) return;
+  ensureAudio();
+  demoBusy = true;
+  $('btn-demo').textContent = '计算中';
+  $('btn-demo').disabled = true;
+  const lvId = S.level.id, snapshot = S.pieces.map(p => ({ ...p }));
+  setTimeout(() => {
+    demoBusy = false;
+    $('btn-demo').textContent = '演示';
+    $('btn-demo').disabled = false;
+    if (!S || S.level.id !== lvId || S.win) return;
+    const r = solvePath(snapshot);
+    if (r.dist <= 0) { toast('当前局面暂无法演示'); return; }
+    S.hint = null;
+    renderHint();
+    S.demoUsed = true;
+    S.demo = { moves: r.moves, idx: 0, timer: null, dist: r.dist };
+    $('btn-demo').textContent = '停止演示';
+    toast(`🎬 开始演示最优解（共 ${r.dist} 步）`);
+    S.demo.timer = setInterval(() => {
+      if (!S || !S.demo || S.win) { stopDemo(); return; }
+      const m = S.demo.moves[S.demo.idx];
+      if (!m) { stopDemo(); return; }
+      S.demo.idx++;
+      tryMove(m.pi, m.dir, true);
+      if (S.demo && S.demo.idx >= S.demo.moves.length) stopDemo();
+    }, 450);
+  }, 30);
+}
+function stopDemo(silent) {
+  if (!S || !S.demo) return;
+  clearInterval(S.demo.timer);
+  S.demo = null;
+  const b = $('btn-demo');
+  if (b) { b.textContent = '演示'; b.disabled = false; }
+  if (!silent) toast('演示已停止');
+}
+let demoBusy = false;
 
 /* ---------------- 棋盘渲染 ---------------- */
 function computeCell() {
@@ -892,14 +1404,24 @@ function updateBoard() {
 }
 function updateStats() {
   if (!S) return;
-  const best = save.best[S.level.id];
+  const best = S.isCustom
+    ? (save.custom.find(c => 'custom-' + c.id === S.level.id) || {}).best
+    : save.best[S.level.id];
   const ref = S.ref == null ? '…' : S.ref;
   const stars = best ? '★'.repeat(best.stars) + '☆'.repeat(3 - best.stars) : '';
-  $('stats').innerHTML =
+  let html =
     `<span>步数 <b>${S.moves}</b></span>` +
     `<span>参考 <b>${ref}</b> 步</span>` +
-    `<span>时间 <b>${fmtTime(S.seconds)}</b></span>` +
-    (best ? `<span class="best">最佳 ${stars} ${best.moves}步</span>` : '');
+    `<span>时间 <b>${fmtTime(S.seconds)}</b></span>`;
+  if (S.challenge) {
+    const leftMoves = S.challenge.movesLimit - S.moves;
+    const mWarn = leftMoves <= 5 ? ' warn' : '';
+    const tWarn = S.chLeft != null && S.chLeft <= 30 ? ' warn' : '';
+    html += `<span class="ch">⚡限步 <b${mWarn ? ' class="warn"' : ''}>${Math.max(0, leftMoves)}</b>/${S.challenge.movesLimit}</span>`;
+    html += `<span class="ch">⚡限时 <b class="${tWarn.trim()}">${fmtTime(Math.max(0, S.chLeft ?? S.challenge.limitSec))}</b></span>`;
+  }
+  if (best) html += `<span class="best">最佳 ${stars} ${best.moves}步</span>`;
+  $('stats').innerHTML = html;
   $('btn-undo').disabled = !S.hist.length;
 }
 
@@ -951,20 +1473,52 @@ function calcStars() {
 function onWin() {
   if (S.win) return;
   S.win = true;
+  stopDemo(true);
   stopTimer();
   const stars = calcStars();
-  // 存档：星级优先，同级比步数
-  const old = save.best[S.level.id];
-  if (!old || stars > old.stars || (stars === old.stars && S.moves < old.moves)) {
-    save.best[S.level.id] = { stars, moves: S.moves, seconds: S.seconds };
-    persistSave();
+  const eligible = !S.demoUsed; // 演示过的本局不计纪录
+  if (S.isCustom) {
+    // 自定义关卡：更新其最佳纪录
+    const it = save.custom.find(c => 'custom-' + c.id === S.level.id);
+    if (it && eligible) {
+      const old = it.best;
+      if (!old || stars > old.stars || (stars === old.stars && S.moves < old.moves)) {
+        it.best = { stars, moves: S.moves, seconds: S.seconds };
+      }
+    }
+    if (eligible) {
+      save.stats.customWins++;
+      save.stats.totalWins++;
+      save.stats.totalMoves += S.moves;
+      save.stats.totalTimeSec += S.seconds;
+    }
+  } else if (eligible) {
+    // 官方关卡：星级优先，同级比步数
+    const old = save.best[S.level.id];
+    if (!old || stars > old.stars || (stars === old.stars && S.moves < old.moves)) {
+      save.best[S.level.id] = { stars, moves: S.moves, seconds: S.seconds };
+    }
+    // 解锁下一难度：本难度通关 ≥3 关
+    const done = LEVELS_DATA.filter(l => l.diff === S.level.diff && save.best[l.id]).length;
+    if (done >= 3 && S.level.diff < 2) {
+      save.unlock = Math.max(save.unlock, S.level.diff + 1);
+    }
+    // 挑战模式通关
+    if (S.challenge) {
+      save.challenge[S.level.id] = true;
+      save.stats.challengeWins++;
+    }
+    // 统计
+    const st = save.stats;
+    st.totalWins++;
+    st.totalMoves += S.moves;
+    st.totalTimeSec += S.seconds;
+    st.diffWins[S.level.diff]++;
+    if (!S.hintUsed) st.noHintWins++;
+    if (S.ref != null && S.ref > 0 && S.moves === S.ref) st.perfectWins++;
   }
-  // 解锁下一难度：本难度通关 ≥3 关
-  const done = LEVELS_DATA.filter(l => l.diff === S.level.diff && save.best[l.id]).length;
-  if (done >= 3 && S.level.diff < 2) {
-    save.unlock = Math.max(save.unlock, S.level.diff + 1);
-    persistSave();
-  }
+  persistSave();
+  checkAchievements();
   SFX.win();
   // 甄嬛驶出宫门动画（先清除选中高亮与提示）
   S.selected = null;
@@ -979,18 +1533,26 @@ function onWin() {
 function showWinOverlay(stars) {
   $('win-avatar').innerHTML = avatarSVG({ key: 'hero' }, 96);
   $('win-sub').textContent = S.level.name + ' · 甄嬛已抵达宫门之外';
-  $('win-quote').textContent = WIN_QUOTES[(Math.random() * WIN_QUOTES.length) | 0];
+  $('win-quote').textContent = S.demoUsed
+    ? '（演示完成 · 本局不计入纪录）'
+    : WIN_QUOTES[(Math.random() * WIN_QUOTES.length) | 0];
   let html = '';
   for (let i = 0; i < 3; i++) {
-    html += `<span class="star ${i < stars ? 'on' : ''}" style="animation-delay:${i * 0.16}s">★</span>`;
+    html += `<span class="star ${i < stars && !S.demoUsed ? 'on' : ''}" style="animation-delay:${i * 0.16}s">★</span>`;
   }
   $('win-stars').innerHTML = html;
+  const refTxt = S.ref != null ? S.ref : '—';
+  const chTxt = S.challenge && !S.demoUsed ? ' · ⚡挑战达成' : '';
   $('win-stats').innerHTML =
-    `用时 <b>${fmtTime(S.seconds)}</b> · 步数 <b>${S.moves}</b> · 参考 <b>${S.ref}</b> 步`;
-  // 下一关
-  const idx = LEVELS_DATA.findIndex(l => l.id === S.level.id);
-  const next = LEVELS_DATA[idx + 1];
-  $('btn-next').classList.toggle('hidden', !next || next.diff > save.unlock);
+    `用时 <b>${fmtTime(S.seconds)}</b> · 步数 <b>${S.moves}</b> · 参考 <b>${refTxt}</b> 步${chTxt}`;
+  // 下一关（自定义关不提供）
+  if (S.isCustom) {
+    $('btn-next').classList.add('hidden');
+  } else {
+    const idx = LEVELS_DATA.findIndex(l => l.id === S.level.id);
+    const next = LEVELS_DATA[idx + 1];
+    $('btn-next').classList.toggle('hidden', !next || next.diff > save.unlock);
+  }
   $('overlay-win').classList.remove('hidden');
 }
 function closeWinOverlay() { $('overlay-win').classList.add('hidden'); }
@@ -1004,45 +1566,96 @@ function starsHtml(best) {
   return h;
 }
 function renderMenu() {
-  // 页签
+  // 页签（含自定义）
   const tabs = $('diff-tabs');
   tabs.innerHTML = '';
-  DIFF_NAMES.forEach((name, d) => {
-    const done = LEVELS_DATA.filter(l => l.diff === d && save.best[l.id]).length;
+  const TAB_NAMES = [...DIFF_NAMES, '自定义'];
+  TAB_NAMES.forEach((name, d) => {
     const b = document.createElement('button');
-    b.className = 'tab' + (d === currentTab ? ' active' : '') + (d > save.unlock ? ' locked' : '');
-    b.textContent = `${name} ${d > save.unlock ? '🔒' : '(' + done + '/4)'}`;
+    if (d < 3) {
+      const total = LEVELS_DATA.filter(l => l.diff === d).length;
+      const done = LEVELS_DATA.filter(l => l.diff === d && save.best[l.id]).length;
+      b.className = 'tab' + (d === currentTab ? ' active' : '') + (d > save.unlock ? ' locked' : '');
+      b.textContent = `${name} ${d > save.unlock ? '🔒' : '(' + done + '/' + total + ')'}`;
+    } else {
+      b.className = 'tab' + (d === currentTab ? ' active' : '');
+      b.textContent = `${name} (${save.custom.length})`;
+    }
     b.onclick = () => { currentTab = d; SFX.select(); renderMenu(); };
     tabs.appendChild(b);
   });
-  // 卡片（按当前难度页签过滤）
+  // 挑战开关状态
+  const chk = $('chk-challenge');
+  if (chk) chk.checked = !!save.challengeOn;
+  // 卡片
   const grid = $('level-grid');
   grid.innerHTML = '';
-  LEVELS_DATA.filter(l => l.diff === currentTab).forEach((lv, i) => {
-    const locked = lv.diff > save.unlock;
-    const best = save.best[lv.id];
-    const card = document.createElement('button');
-    card.className = 'card' + (locked ? ' locked' : '');
-    card.innerHTML =
-      `<div class="card-top">
-         <span class="card-no">${String(i + 1).padStart(2, '0')}</span>
-         <span class="card-name">${lv.name}</span>
-         <span class="card-stars">${starsHtml(best)}</span>
-       </div>
-       <div class="card-quote">${lv.quote}</div>
-       <div class="card-ref">${locked ? '通关上一难度 3 关解锁' : (REF_CACHE[lv.id] != null ? '参考 ' + REF_CACHE[lv.id] + ' 步' : '参考 …')}</div>
-       ${best ? `<div class="best-time">最佳 ${best.moves} 步 · ${fmtTime(best.seconds)}</div>` : ''}
-       ${locked ? '<span class="lock-icon">🔒</span>' : ''}`;
-    if (!locked) card.onclick = () => { ensureAudio(); SFX.select(); startLevel(lv); };
-    grid.appendChild(card);
-  });
+  if (currentTab === 3) {
+    // 自定义关卡页签
+    if (!save.custom.length) {
+      grid.innerHTML = '<p class="custom-empty">还没有自定义关卡。<br>点击上方「编辑器」摆一局你自己的华容道吧！</p>';
+    }
+    save.custom.forEach((it, i) => {
+      const card = document.createElement('button');
+      card.className = 'card';
+      const bestTxt = it.best ? '★'.repeat(it.best.stars) + '☆'.repeat(3 - it.best.stars) + ` · ${it.best.moves}步` : '☆☆☆';
+      card.innerHTML =
+        `<div class="card-top">
+           <span class="card-no">${String(i + 1).padStart(2, '0')}</span>
+           <span class="card-name">${it.name}</span>
+           <span class="card-stars">${bestTxt}</span>
+         </div>
+         <div class="card-quote">自制关卡 · 分享码 ${encodeShare(it)}</div>
+         <div class="card-ref">参考 ${it.optimal} 步</div>
+         <span class="card-del" title="删除此关卡">✕</span>`;
+      card.onclick = e => {
+        if (e.target.classList.contains('card-del')) return;
+        ensureAudio(); SFX.select();
+        startCustomLevel(it);
+      };
+      card.querySelector('.card-del').onclick = e => {
+        e.stopPropagation();
+        save.custom = save.custom.filter(c => c.id !== it.id);
+        persistSave(); renderMenu();
+      };
+      grid.appendChild(card);
+    });
+  } else {
+    LEVELS_DATA.filter(l => l.diff === currentTab).forEach((lv, i) => {
+      const locked = lv.diff > save.unlock;
+      const best = save.best[lv.id];
+      const card = document.createElement('button');
+      card.className = 'card' + (locked ? ' locked' : '');
+      const chMark = save.challenge[lv.id] ? ' ⚡' : '';
+      card.innerHTML =
+        `<div class="card-top">
+           <span class="card-no">${String(i + 1).padStart(2, '0')}</span>
+           <span class="card-name">${lv.name}</span>
+           <span class="card-stars">${starsHtml(best)}${chMark}</span>
+         </div>
+         <div class="card-quote">${lv.quote}</div>
+         <div class="card-ref">${locked ? '通关上一难度 3 关解锁' : (REF_CACHE[lv.id] != null ? '参考 ' + REF_CACHE[lv.id] + ' 步' : '参考 …')}</div>
+         ${best ? `<div class="best-time">最佳 ${best.moves} 步 · ${fmtTime(best.seconds)}</div>` : ''}
+         ${locked ? '<span class="lock-icon">🔒</span>' : ''}`;
+      if (!locked) card.onclick = () => { ensureAudio(); SFX.select(); startLevel(lv); };
+      grid.appendChild(card);
+    });
+  }
   // 底部提示
   const all = LEVELS_DATA.every(l => save.best[l.id]);
   $('menu-tip').textContent = all
-    ? '🎉 十二宫尽数踏破，熹贵妃登临凤位！'
+    ? '🎉 三十六宫尽数踏破，熹贵妃登临凤位！'
     : '把 2×2 的「甄嬛」移到下方宫门即可过关 · 步数越接近参考，星级越高';
   // 异步补充参考步数
   pumpRefs();
+}
+function startCustomLevel(it) {
+  const tier = it.optimal <= 62 ? 0 : it.optimal <= 90 ? 1 : 2;
+  startLevel({
+    id: 'custom-' + it.id, name: it.name, diff: tier, custom: true, optimal: it.optimal,
+    hero: it.hero, v: it.v, h: it.h, s: it.s,
+    quote: '', cast: { v: ['huanghou', 'huafei', 'anlingrong', 'shenmeizhuang'], h: 'huangshang', s: ['jingxi', 'huanbi', 'liuzhu', 'yunzi'] },
+  });
 }
 let currentTab = 0;
 function pumpRefs() {
@@ -1055,10 +1668,214 @@ function pumpRefs() {
   }, 20);
 }
 
-/* ---------------- 按钮与键盘 ---------------- */
+/* ---------------- 关卡编辑器 ---------------- */
+const ED_TOOLS = [
+  { t: 'H', label: '甄嬛 2×2' },
+  { t: 'V', label: '竖将 1×2' },
+  { t: 'B', label: '横将 2×1' },
+  { t: 'S', label: '兵 1×1' },
+  { t: 'E', label: '橡皮' },
+];
+const ED_TOOL_DIMS = { H: [2, 2], V: [1, 2], B: [2, 1], S: [1, 1] };
+const ED = { pieces: [], nextId: 1, tool: 'H', valid: null };
+function edReset() {
+  ED.pieces = []; ED.nextId = 1; ED.tool = 'H'; ED.valid = null;
+  $('ed-name').value = '';
+  $('ed-code').value = '';
+  edMsg('');
+  edRender();
+}
+function edOcc() {
+  const g = new Array(20).fill(null);
+  for (const p of ED.pieces) {
+    const [w, h] = ED_TOOL_DIMS[p.t];
+    for (let a = 0; a < h; a++) for (let b = 0; b < w; b++) g[(p.r + a) * COLS + p.c + b] = p.id;
+  }
+  return g;
+}
+function edPlace(idx) {
+  const r = (idx / COLS) | 0, c = idx % COLS;
+  if (ED.tool === 'E') {
+    const g = edOcc();
+    if (g[idx]) { ED.pieces = ED.pieces.filter(p => p.id !== g[idx]); ED.valid = null; }
+  } else {
+    const [w, h] = ED_TOOL_DIMS[ED.tool];
+    if (r + h > ROWS || c + w > COLS) { edMsg('放不下了：超出棋盘'); return; }
+    const g = edOcc();
+    for (let a = 0; a < h; a++) for (let b = 0; b < w; b++) {
+      if (g[(r + a) * COLS + c + b]) { edMsg('该位置已有棋子'); return; }
+    }
+    ED.pieces.push({ id: ED.nextId++, t: ED.tool, r, c });
+    ED.valid = null;
+  }
+  edMsg('');
+  edRender();
+}
+function edLayout() {
+  const get = t => ED.pieces.filter(p => p.t === t).sort((a, b) => a.id - b.id);
+  const H = get('H')[0], B = get('B')[0];
+  const V = get('V'), S = get('S');
+  if (!H || !B || V.length !== 4 || S.length !== 4) return null;
+  return {
+    hero: [H.r, H.c],
+    v: V.map(p => [p.r, p.c]),
+    h: [B.r, B.c],
+    s: S.map(p => [p.r, p.c]),
+  };
+}
+function edLoadLayout(lv) {
+  const put = (t, r, c) => ED.pieces.push({ id: ED.nextId++, t, r, c });
+  ED.pieces = []; ED.nextId = 1;
+  put('H', lv.hero[0], lv.hero[1]);
+  lv.v.forEach(([r, c]) => put('V', r, c));
+  put('B', lv.h[0], lv.h[1]);
+  lv.s.forEach(([r, c]) => put('S', r, c));
+  ED.valid = null;
+  edRender();
+}
+function edValidate() {
+  const lv = edLayout();
+  if (!lv) { edMsg('棋子不齐：需 甄嬛×1 + 竖将×4 + 横将×1 + 兵×4（空 2 格）', true); return; }
+  const chk = validateLayout(lv);
+  if (!chk.ok) { edMsg(chk.msg, true); return; }
+  edMsg('正在求解验证…');
+  const pieces = buildPieces({ hero: lv.hero, v: lv.v, h: lv.h, s: lv.s,
+    cast: { v: ['huanghou', 'huafei', 'anlingrong', 'shenmeizhuang'], h: 'huangshang', s: ['jingxi', 'huanbi', 'liuzhu', 'yunzi'] } });
+  setTimeout(() => {
+    const r = solvePath(pieces, 1500000);
+    if (r.dist < 0) { ED.valid = null; edMsg('此布局无解或过于罕见，换一换吧', true); return; }
+    ED.valid = { layout: lv, optimal: r.dist };
+    edMsg(`✓ 验证通过！最优 ${r.dist} 步（${r.dist <= 62 ? '简单' : r.dist <= 90 ? '中等' : '困难'}）`);
+  }, 30);
+}
+function edPlay() {
+  if (!ED.valid) { edMsg('请先点「验证」', true); return; }
+  const lv = ED.valid.layout;
+  const name = $('ed-name').value.trim() || '我的关卡';
+  startCustomLevel({ id: 'tmp' + Date.now(), name, optimal: ED.valid.optimal, hero: lv.hero, v: lv.v, h: lv.h, s: lv.s });
+}
+function edSave() {
+  if (!ED.valid) { edMsg('请先点「验证」', true); return; }
+  const name = $('ed-name').value.trim();
+  if (!name) { edMsg('给关卡起个名字吧', true); return; }
+  const lv = ED.valid.layout;
+  save.custom.push({ id: 'c' + Date.now(), name, hero: lv.hero, v: lv.v, h: lv.h, s: lv.s, optimal: ED.valid.optimal, best: null });
+  persistSave();
+  checkAchievements();
+  toast(`已保存「${name}」到自定义关卡`);
+  $('overlay-editor').classList.add('hidden');
+  currentTab = 3;
+  renderMenu();
+}
+function edShare() {
+  if (!ED.valid) { edMsg('请先点「验证」', true); return; }
+  $('ed-code').value = encodeShare(ED.valid.layout);
+  edMsg('分享码已生成，复制发给好友即可');
+}
+function edImport() {
+  const lv = decodeShare($('ed-code').value);
+  if (!lv) { edMsg('分享码无效，请检查输入', true); return; }
+  const chk = validateLayout(lv);
+  if (!chk.ok) { edMsg('分享码对应的布局不合法', true); return; }
+  edLoadLayout(lv);
+  $('ed-name').value = $('ed-name').value.trim() || '好友的关卡';
+  edMsg('已载入，点「验证」查看步数，或直接试玩/保存');
+}
+function edMsg(msg, isErr) {
+  const el = $('ed-msg');
+  el.textContent = msg;
+  el.classList.toggle('err', !!isErr);
+}
+function edRender() {
+  const g = edOcc();
+  const grid = $('ed-grid');
+  grid.innerHTML = '';
+  const meta = { H: ['甄', '#a3231f'], V: ['将', '#5d2b52'], B: ['相', '#a37c15'], S: ['兵', '#55606a'] };
+  for (let i = 0; i < 20; i++) {
+    const d = document.createElement('button');
+    d.type = 'button';
+    d.className = 'ed-cell';
+    const pid = g[i];
+    if (pid) {
+      const p = ED.pieces.find(x => x.id === pid);
+      d.classList.add('ed-' + p.t);
+      d.textContent = meta[p.t][0];
+      d.style.background = meta[p.t][1];
+    }
+    d.addEventListener('click', () => { SFX.select(); edPlace(i); });
+    grid.appendChild(d);
+  }
+  document.querySelectorAll('.ed-pal button').forEach(b => {
+    b.classList.toggle('active', b.dataset.tool === ED.tool);
+  });
+}
+
+/* ---------------- 存档导出/导入 ---------------- */
+function exportSaveCode() {
+  const json = JSON.stringify(save);
+  const b64 = btoa(unescape(encodeURIComponent(json)));
+  return 'ZHRD-SAVE1.' + b64;
+}
+function importSaveCode(text) {
+  const s = String(text || '').trim();
+  if (!s.startsWith('ZHRD-SAVE1.')) return null;
+  try {
+    const json = decodeURIComponent(escape(atob(s.slice(11))));
+    return migrateSave(JSON.parse(json));
+  } catch (e) { return null; }
+}
+
+/* ---------------- 成就 / 统计弹层 ---------------- */
+function renderAchOverlay() {
+  const grid = $('ach-grid');
+  grid.innerHTML = ACHS.map(a => {
+    const got = !!save.ach[a.id];
+    return `<div class="ach-item ${got ? 'got' : ''}">
+      <span class="ach-icon">${got ? a.icon : '🔒'}</span>
+      <span class="ach-name">${a.name}</span>
+      <span class="ach-desc">${a.desc}</span>
+    </div>`;
+  }).join('');
+  $('ach-count').textContent = `${Object.keys(save.ach).length} / ${ACHS.length}`;
+}
+function renderStatsOverlay() {
+  const st = save.stats;
+  const cleared = LEVELS_DATA.filter(l => save.best[l.id]).length;
+  const rows = [
+    ['通关次数', st.totalWins + ' 次'],
+    ['累计步数', st.totalMoves + ' 步'],
+    ['累计时长', fmtTime(st.totalTimeSec)],
+    ['关卡进度', `${cleared} / ${LEVELS_DATA.length}`],
+    ['简单/中等/困难', `${st.diffWins[0]} / ${st.diffWins[1]} / ${st.diffWins[2]}`],
+    ['无提示通关', st.noHintWins + ' 次'],
+    ['最优步数通关', st.perfectWins + ' 次'],
+    ['挑战模式通关', st.challengeWins + ' 次'],
+    ['自定义关卡', save.custom.length + ' 个（通关 ' + st.customWins + ' 次）'],
+  ];
+  $('stats-rows').innerHTML = rows.map(([k, v]) =>
+    `<div class="stat-row"><span>${k}</span><b>${v}</b></div>`).join('');
+}
+
+/* ---------------- 返回键适配（Android / 鸿蒙） ---------------- */
+window.__hrdBack = function () {
+  const overlays = ['overlay-win', 'overlay-help', 'overlay-fail', 'overlay-ach', 'overlay-stats', 'overlay-save', 'overlay-editor'];
+  for (const id of overlays) {
+    const el = document.getElementById(id);
+    if (el && !el.classList.contains('hidden')) { el.classList.add('hidden'); return 'stay'; }
+  }
+  const game = document.getElementById('screen-game');
+  if (game && !game.classList.contains('hidden')) {
+    document.getElementById('btn-back').click();
+    return 'menu';
+  }
+  return 'exit';
+};
+
+
 function wireButtons() {
   $('btn-back').onclick = () => { SFX.select(); stopTimer(); S = null; setScreen('menu'); renderMenu(); };
   $('btn-hint').onclick = () => { ensureAudio(); computeHint(); };
+  $('btn-demo').onclick = () => toggleDemo();
   $('btn-undo').onclick = () => undo();
   $('btn-restart').onclick = () => { SFX.select(); startLevel(S.level); };
   $('btn-replay').onclick = () => { closeWinOverlay(); startLevel(S.level); };
@@ -1099,6 +1916,8 @@ function wireButtons() {
         startLevel(S.level);
       } else if (e.key === 'h' || e.key === 'H') {
         computeHint();
+      } else if (e.key === 'd' || e.key === 'D') {
+        toggleDemo();
       }
     }
   });
@@ -1108,17 +1927,106 @@ function wireButtons() {
   window.addEventListener('resize', () => {
     if (S && !$('screen-game').classList.contains('hidden')) buildBoard();
   });
+  // ---- 主菜单功能入口 ----
+  $('btn-ach').onclick = () => { SFX.select(); renderAchOverlay(); $('overlay-ach').classList.remove('hidden'); };
+  $('btn-stats').onclick = () => { SFX.select(); renderStatsOverlay(); $('overlay-stats').classList.remove('hidden'); };
+  $('btn-save-io').onclick = () => {
+    SFX.select();
+    $('save-io').value = exportSaveCode();
+    $('save-msg').textContent = '';
+    $('overlay-save').classList.remove('hidden');
+  };
+  $('btn-editor').onclick = () => { SFX.select(); $('overlay-editor').classList.remove('hidden'); edRender(); };
+  $('chk-challenge').onchange = e => {
+    save.challengeOn = e.target.checked;
+    persistSave();
+    toast(save.challengeOn ? '⚡ 挑战模式已开启（限时限步）' : '挑战模式已关闭');
+  };
+  $('btn-ach-close').onclick = () => $('overlay-ach').classList.add('hidden');
+  $('btn-stats-close').onclick = () => $('overlay-stats').classList.add('hidden');
+  $('btn-save-close').onclick = () => $('overlay-save').classList.add('hidden');
+  // 存档导出/导入
+  $('btn-export').onclick = () => { $('save-io').value = exportSaveCode(); $('save-msg').textContent = '存档码已生成'; };
+  $('btn-copy-save').onclick = async () => {
+    const ta = $('save-io');
+    ta.select();
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    if (!ok && navigator.clipboard) { try { await navigator.clipboard.writeText(ta.value); ok = true; } catch (e) {} }
+    $('save-msg').textContent = ok ? '已复制到剪贴板' : '复制失败，请手动全选复制';
+  };
+  $('btn-dl-save').onclick = () => {
+    const blob = new Blob([$('save-io').value || exportSaveCode()], { type: 'text/plain;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = '深宫华容道-存档.txt';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  };
+  $('btn-import-save').onclick = () => {
+    const s = importSaveCode($('save-io').value);
+    if (!s) { $('save-msg').textContent = '存档码无效，请检查输入'; return; }
+    const btn = $('btn-import-save');
+    if (btn.dataset.arm !== '1') {
+      btn.dataset.arm = '1';
+      btn.textContent = '⚠ 再点一次确认覆盖';
+      $('save-msg').textContent = '导入将覆盖当前全部进度，再点一次按钮确认执行';
+      setTimeout(() => { btn.dataset.arm = ''; btn.textContent = '导入（覆盖）'; }, 3500);
+      return;
+    }
+    localStorage.setItem(SAVE_KEY, JSON.stringify(s));
+    location.reload();
+  };
+  $('save-file').onchange = e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = () => { $('save-io').value = String(reader.result || ''); $('btn-import-save').click(); };
+    reader.readAsText(f, 'utf-8');
+  };
+  // 挑战失败弹层
+  $('btn-fail-retry').onclick = () => { $('overlay-fail').classList.add('hidden'); startLevel(S.level); };
+  $('btn-fail-continue').onclick = () => {
+    $('overlay-fail').classList.add('hidden');
+    if (S) { S.challenge = null; S.chLeft = null; if (!S.timerId && !S.win) startTimer(); updateStats(); }
+  };
+  $('btn-fail-menu').onclick = () => {
+    $('overlay-fail').classList.add('hidden');
+    stopTimer(); S = null; setScreen('menu'); renderMenu();
+  };
+  // 编辑器
+  document.querySelectorAll('.ed-pal button').forEach(b => {
+    b.onclick = () => { SFX.select(); ED.tool = b.dataset.tool; edRender(); };
+  });
+  $('ed-reset').onclick = () => { SFX.select(); edReset(); };
+  $('ed-validate').onclick = () => edValidate();
+  $('ed-play').onclick = () => edPlay();
+  $('ed-save').onclick = () => edSave();
+  $('ed-share').onclick = () => edShare();
+  $('ed-import').onclick = () => edImport();
+  $('btn-editor-close').onclick = () => $('overlay-editor').classList.add('hidden');
 }
 
 /* ---------------- 启动 ---------------- */
 loadSave();
 wireButtons();
+edReset();
 setScreen('menu');
 renderMenu();
+// Android（Capacitor）返回键：菜单→退出，游戏→回菜单，弹层→关闭
+if (window.Capacitor && window.Capacitor.Plugins && window.Capacitor.Plugins.App) {
+  try {
+    window.Capacitor.Plugins.App.addListener('backButton', () => {
+      const r = window.__hrdBack();
+      if (r === 'exit') window.Capacitor.Plugins.App.exitApp();
+    });
+  } catch (e) {}
+}
 // PWA：Service Worker 注册（仅 http/https 环境；file:// 双击打开时静默跳过）
 if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+  const v = window.APP_VERSION || '1.0.0';
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
+    navigator.serviceWorker.register('sw.js?v=' + v).catch(() => {});
   });
 }
 </script>

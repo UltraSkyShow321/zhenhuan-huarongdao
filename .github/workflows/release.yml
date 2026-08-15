@@ -56,7 +56,7 @@ jobs:
       - name: Prepare web assets
         run: |
           mkdir -p mobile/www/icons
-          cp index.html manifest.webmanifest sw.js mobile/www/
+          cp index.html version.js manifest.webmanifest sw.js mobile/www/
           cp icons/icon-192.png icons/icon-512.png icons/apple-touch-icon.png mobile/www/icons/
       - name: Add Android platform
         working-directory: mobile

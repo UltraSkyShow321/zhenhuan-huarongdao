@@ -1,9 +1,13 @@
 // 深宫华容道 Service Worker：缓存优先，离线可玩
-const CACHE = 'zhenhuan-hrd-v1.1.0';
+// 缓存名由 version.js 的 APP_VERSION 派生——发布新版本只需更新 version.js。
+importScripts('version.js');
+const CACHE = 'zhenhuan-hrd-' + (typeof APP_VERSION !== 'undefined' ? APP_VERSION : '1.0.0');
 const ASSETS = [
   './',
   './index.html',
+  './version.js',
   './manifest.webmanifest',
+  './sw.js',
   './icons/icon-192.png',
   './icons/icon-512.png',
   './icons/apple-touch-icon.png',
