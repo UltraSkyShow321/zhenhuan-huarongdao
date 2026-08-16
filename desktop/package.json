@@ -1,7 +1,7 @@
 {
   "name": "zhenhuan-huarongdao-desktop",
   "productName": "深宫华容道",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "description": "甄嬛传主题华容道桌面版",
   "author": "UltraSkyShow321",
   "license": "MIT",
@@ -60,10 +60,12 @@
     },
     "linux": {
       "target": [
-        "AppImage"
+        "AppImage",
+        "deb"
       ],
       "icon": "../icons/icon-512.png",
-      "category": "Game"
+      "category": "Game",
+      "maintainer": "UltraSkyShow321"
     }
   }
 }
