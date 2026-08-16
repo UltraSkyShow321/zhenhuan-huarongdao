@@ -61,9 +61,9 @@ p.subtitle { color: var(--text-dim); letter-spacing: .3em; text-indent: .3em; fo
 p.menu-quote { color: var(--text-dim); text-align: center; font-size: 13px; margin-top: 4px; opacity: .8; }
 
 /* 难度页签 */
-#diff-tabs { display: flex; justify-content: center; gap: 10px; margin: 22px 0 14px; }
+#diff-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: 22px 0 14px; }
 .tab {
-  padding: 8px 22px; font-size: 17px; letter-spacing: .2em; cursor: pointer;
+  padding: 7px 14px; font-size: 15px; letter-spacing: .08em; cursor: pointer;
   background: rgba(0,0,0,.25); border: 1px solid var(--gold-dim); border-radius: 999px;
   color: var(--text-dim); transition: all .15s;
 }
@@ -96,6 +96,8 @@ p.menu-quote { color: var(--text-dim); text-align: center; font-size: 13px; marg
 
 /* ============ 游戏界面 ============ */
 #screen-game { max-width: 720px; margin: 0 auto; padding: 10px 14px 30px; display: flex; flex-direction: column; align-items: center; }
+.game-main { display: flex; flex-direction: column; align-items: center; width: 100%; }
+.side-panel { display: flex; flex-direction: column; align-items: center; width: 100%; }
 .game-header { width: 100%; display: flex; align-items: center; gap: 10px; padding: 4px 2px; }
 .game-header .level-title { flex: 1; text-align: center; font-size: 21px; letter-spacing: .18em; color: var(--gold-bright); text-shadow: 0 1px 6px rgba(0,0,0,.6); }
 .badge { display: inline-block; font-size: 12px; padding: 1px 10px; border-radius: 999px; border: 1px solid; vertical-align: 3px; margin-left: 8px; letter-spacing: .15em; }
@@ -218,6 +220,33 @@ p.menu-quote { color: var(--text-dim); text-align: center; font-size: 13px; marg
   background: rgba(0,0,0,.3); border: 1px solid var(--gold-dim); color: var(--gold);
 }
 #btn-sound.off { opacity: .45; filter: grayscale(1); }
+#btn-music {
+  position: fixed; top: 12px; right: 58px; z-index: 60; width: 40px; height: 40px;
+  font-size: 18px; cursor: pointer; border-radius: 50%;
+  background: rgba(0,0,0,.3); border: 1px solid var(--gold-dim); color: var(--gold);
+}
+#btn-music.off { opacity: .45; filter: grayscale(1); }
+
+/* ===== 移动端紧凑适配（防溢出） ===== */
+@media (max-width: 540px) {
+  .stats { flex-wrap: wrap; gap: 8px 14px; font-size: 13px; }
+  .controls { flex-wrap: wrap; justify-content: center; gap: 10px; }
+  .dpad button { width: 42px; height: 42px; }
+  .game-header .level-title { font-size: 17px; letter-spacing: .06em; }
+  .game-header .badge { margin-left: 4px; letter-spacing: .05em; }
+  .cast { gap: 2px 8px; }
+  .cast-item { font-size: 10px; }
+  .hint { font-size: 11px; }
+}
+
+/* ===== 宽屏双栏布局（桌面最大化） ===== */
+@media (min-width: 1000px) {
+  .screen { max-width: 1160px; }
+  #screen-game { max-width: 1160px; }
+  .game-main { display: flex; flex-direction: row; align-items: flex-start; justify-content: center; gap: 44px; }
+  .side-panel { width: 380px; display: flex; flex-direction: column; align-items: center; }
+  #level-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+}
 
 /* ===== v1.2 新增 ===== */
 .badge.d3 { color: #c9b08a; border-color: #8a7a5a; background: rgba(120,100,60,.18); }
@@ -333,6 +362,7 @@ p.menu-quote { color: var(--text-dim); text-align: center; font-size: 13px; marg
 </head>
 <body>
 
+<button id="btn-music" title="背景音乐开关">🎵</button>
 <button id="btn-sound" title="音效开关">🔊</button>
 
 <!-- ============ 主菜单 ============ -->
@@ -361,27 +391,31 @@ p.menu-quote { color: var(--text-dim); text-align: center; font-size: 13px; marg
     <div class="level-title" id="level-title"></div>
     <button class="btn small" id="btn-help" title="操作说明">?</button>
   </div>
-  <div class="stats" id="stats"></div>
-  <div class="hint-text" id="hint-text"></div>
-  <div class="cast" id="cast"></div>
-  <div class="board-wrap">
-    <div id="board"></div>
-    <div id="arch-wrap"><div id="exit-arch"></div><span>宫门 · 出口</span></div>
-  </div>
-  <div class="controls">
-    <button class="btn" id="btn-demo" title="演示最优解（D）">演示</button>
-    <button class="btn" id="btn-hint" title="提示最优走法（H）">提示</button>
-    <button class="btn" id="btn-undo">悔棋</button>
-    <div class="dpad">
-      <button class="up" data-dir="0">▲</button>
-      <button class="left" data-dir="2">◀</button>
-      <div class="mid"></div>
-      <button class="right" data-dir="3">▶</button>
-      <button class="down" data-dir="1">▼</button>
+  <div class="game-main">
+    <div class="board-wrap">
+      <div id="board"></div>
+      <div id="arch-wrap"><div id="exit-arch"></div><span>宫门 · 出口</span></div>
     </div>
-    <button class="btn" id="btn-restart">重开</button>
+    <div class="side-panel">
+      <div class="stats" id="stats"></div>
+      <div class="hint-text" id="hint-text"></div>
+      <div class="cast" id="cast"></div>
+      <div class="controls">
+        <button class="btn" id="btn-demo" title="演示最优解（D）">演示</button>
+        <button class="btn" id="btn-hint" title="提示最优走法（H）">提示</button>
+        <button class="btn" id="btn-undo">悔棋</button>
+        <div class="dpad">
+          <button class="up" data-dir="0">▲</button>
+          <button class="left" data-dir="2">◀</button>
+          <div class="mid"></div>
+          <button class="right" data-dir="3">▶</button>
+          <button class="down" data-dir="1">▼</button>
+        </div>
+        <button class="btn" id="btn-restart">重开</button>
+      </div>
+      <p class="hint">点选棋子后拖动、方向键或屏幕方向钮移动 · 卡关可按「提示」或 H 键 · 助「甄嬛」抵达下方宫门</p>
+    </div>
   </div>
-  <p class="hint">点选棋子后拖动、方向键或屏幕方向钮移动 · 卡关可按「提示」或 H 键 · 助「甄嬛」抵达下方宫门</p>
 </section>
 
 <!-- ============ 胜利结算 ============ -->
@@ -448,6 +482,15 @@ p.menu-quote { color: var(--text-dim); text-align: center; font-size: 13px; marg
       <label class="btn small file-label">上传文件<input type="file" id="save-file" accept=".txt" hidden></label>
     </div>
     <p class="save-msg" id="save-msg"></p>
+    <div class="music-section">
+      <p class="save-tip">🎵 背景音乐：可用内置古风配乐，或导入本地音乐文件（如原声 mp3）。
+        文件仅保存在本机（IndexedDB），不会上传。右上角 🎵 可随时开关。</p>
+      <div class="save-btns">
+        <label class="btn small file-label">导入本地音乐<input type="file" id="music-file" accept="audio/*" hidden></label>
+        <button class="btn small" id="btn-music-clear">恢复内置配乐</button>
+      </div>
+      <p class="save-msg" id="music-msg"></p>
+    </div>
     <div class="win-btns"><button class="btn primary" id="btn-save-close">关闭</button></div>
   </div>
 </div>
@@ -542,6 +585,141 @@ const SFX = {
   undo:    () => tone(300, 0.08, 'sine', 0.07),
   win:     () => [523, 659, 784, 1046].forEach((f, i) => tone(f, 0.24, 'sine', 0.11, i * 0.14)),
 };
+
+/* ---------------- 背景音乐 ----------------
+   两种来源：① 内置古风配乐（WebAudio 合成，D 宫五声）② 用户导入的本地音乐文件（IndexedDB 持久保存）
+   右上角 🎵 随时开关；默认关闭。
+   -------------------------------------------------- */
+const MUSIC = { on: false, name: '', audio: null, timer: null, step: 0, loopStart: 0, master: null };
+
+// —— 内置配乐乐谱：[拍, MIDI, 时值(拍), 声部 m旋律/a琶音/b低音/l铃] ——
+const BG_MEL = [
+  [0,69,1.5,'m'],[1.5,71,.5,'m'],[2,74,2,'m'],[4,74,1,'m'],[5,71,.5,'m'],[5.5,69,.5,'m'],[6,66,2,'m'],
+  [8,69,1,'m'],[9,66,.5,'m'],[9.5,64,.5,'m'],[10,62,2,'m'],[12,66,1,'m'],[13,69,.5,'m'],[13.5,71,.5,'m'],[14,74,2,'m'],
+  [16,76,1.5,'m'],[17.5,74,.5,'m'],[18,71,2,'m'],[20,69,1,'m'],[21,71,.5,'m'],[21.5,74,.5,'m'],[22,78,2,'m'],
+  [24,74,1,'m'],[25,71,.5,'m'],[25.5,69,.5,'m'],[26,66,2,'m'],[28,64,1,'m'],[29,66,.5,'m'],[29.5,69,.5,'m'],[30,62,2,'m'],
+];
+const BG_ARP = [];
+{
+  const bars = [
+    [50,57,62,66,62,57,54,50], // D
+    [47,54,59,62,59,54,50,47], // Bm
+    [43,50,55,59,55,50,47,43], // G
+    [45,52,57,61,57,52,49,45], // A
+  ];
+  for (let rep = 0; rep < 2; rep++) bars.forEach((bar, bi) => {
+    bar.forEach((n, i) => BG_ARP.push([rep * 16 + bi * 4 + i * .5, n, .5, 'a']));
+  });
+}
+const BG_BASS = [];
+for (let rep = 0; rep < 2; rep++) [38, 35, 43, 45].forEach((n, bi) => BG_BASS.push([rep * 16 + bi * 4, n, 3.8, 'b']));
+const BG_BELL = [[0,86,2,'l'],[8,83,2,'l'],[16,86,2,'l'],[24,81,2,'l'],[30,86,3,'l']];
+const BG_SCORE = [...BG_MEL, ...BG_ARP, ...BG_BASS, ...BG_BELL].sort((a, b) => a[0] - b[0]);
+const BG_TEMPO = 66, BG_BEATS = 32;
+
+function bgNote(n, t, dur, voice) {
+  if (!audioCtx || !MUSIC.master) return;
+  const f = 440 * Math.pow(2, (n - 69) / 12);
+  const osc = (type, freq, vol, attack, decay) => {
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = type; o.frequency.value = freq;
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(vol, t + attack);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + decay);
+    o.connect(g); g.connect(MUSIC.master);
+    o.start(t); o.stop(t + decay + .1);
+    return { o, g };
+  };
+  if (voice === 'm') {
+    const { o } = osc('sine', f, .12, .025, Math.max(.8, dur * .95));
+    osc('triangle', f * 2, .03, .01, .3);
+    if (dur >= 1.5) { // 长音揉弦
+      const lfo = audioCtx.createOscillator(), lg = audioCtx.createGain();
+      lfo.frequency.value = 5.2; lg.gain.value = 7;
+      lfo.connect(lg); lg.connect(o.detune);
+      lfo.start(t); lfo.stop(t + dur);
+    }
+  } else if (voice === 'a') {
+    osc('triangle', f, .05, .006, .38);
+  } else if (voice === 'b') {
+    osc('sine', f, .085, .06, dur * 1.1);
+  } else if (voice === 'l') {
+    osc('sine', f, .04, .004, dur * 1.5);
+    osc('sine', f * 2.76, .018, .004, dur * 1.2);
+  }
+}
+function bgTick() {
+  if (!audioCtx || !MUSIC.master || MUSIC.name) return;
+  const beat = 60 / BG_TEMPO;
+  const horizon = audioCtx.currentTime + .35;
+  let guard = 0;
+  while (guard++ < 64) {
+    const ev = BG_SCORE[MUSIC.step];
+    if (!ev) { MUSIC.step = 0; MUSIC.loopStart += BG_BEATS * beat; continue; }
+    const t = MUSIC.loopStart + ev[0] * beat;
+    if (t >= horizon) break;
+    bgNote(ev[1], t, ev[2] * beat, ev[3]);
+    MUSIC.step++;
+  }
+}
+function startBGM() {
+  if (!MUSIC.on) return;
+  ensureAudio();
+  if (MUSIC.name && MUSIC.audio) { // 本地导入的音乐
+    MUSIC.audio.currentTime = 0;
+    MUSIC.audio.play().catch(() => {});
+    return;
+  }
+  if (!audioCtx || MUSIC.timer) return;
+  MUSIC.master = audioCtx.createGain();
+  MUSIC.master.gain.setValueAtTime(0, audioCtx.currentTime);
+  MUSIC.master.gain.linearRampToValueAtTime(.85, audioCtx.currentTime + 1.5);
+  MUSIC.master.connect(audioCtx.destination);
+  MUSIC.step = 0;
+  MUSIC.loopStart = audioCtx.currentTime + .2;
+  MUSIC.timer = setInterval(bgTick, 50);
+}
+function stopBGM() {
+  if (MUSIC.timer) { clearInterval(MUSIC.timer); MUSIC.timer = null; }
+  if (MUSIC.master) {
+    const m = MUSIC.master;
+    try { m.gain.setTargetAtTime(0, audioCtx.currentTime, .12); setTimeout(() => { try { m.disconnect(); } catch (e) {} }, 600); } catch (e) {}
+    MUSIC.master = null;
+  }
+  if (MUSIC.audio) { try { MUSIC.audio.pause(); } catch (e) {} }
+}
+function setMusic(on) {
+  MUSIC.on = on;
+  save.music = on;
+  persistSave();
+  const b = document.getElementById('btn-music');
+  if (b) b.classList.toggle('off', !on);
+  if (on) startBGM(); else stopBGM();
+}
+// —— IndexedDB（本地音乐文件持久保存） ——
+function idbOpen() {
+  return new Promise((res, rej) => {
+    if (!window.indexedDB) return rej(new Error('no idb'));
+    const r = indexedDB.open('zhenhuan-bgm', 1);
+    r.onupgradeneeded = () => { try { r.result.createObjectStore('kv'); } catch (e) {} };
+    r.onsuccess = () => res(r.result);
+    r.onerror = () => rej(r.error);
+  });
+}
+async function idbPut(k, v) { const db = await idbOpen(); return new Promise((res, rej) => { const t = db.transaction('kv', 'readwrite'); t.objectStore('kv').put(v, k); t.oncomplete = res; t.onerror = () => rej(t.error); }); }
+async function idbGet(k) { const db = await idbOpen(); return new Promise((res, rej) => { const r = db.transaction('kv').objectStore('kv').get(k); r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error); }); }
+async function idbDel(k) { const db = await idbOpen(); return new Promise((res, rej) => { const t = db.transaction('kv', 'readwrite'); t.objectStore('kv').delete(k); t.oncomplete = res; t.onerror = () => rej(t.error); }); }
+async function loadCustomMusic() {
+  try {
+    const rec = await idbGet('track');
+    if (!rec || !rec.blob) return;
+    MUSIC.name = rec.name || '自定义音乐';
+    if (MUSIC.audio) { try { MUSIC.audio.pause(); URL.revokeObjectURL(MUSIC.audio.src); } catch (e) {} }
+    MUSIC.audio = new Audio(URL.createObjectURL(rec.blob));
+    MUSIC.audio.loop = true;
+    MUSIC.audio.volume = .55;
+  } catch (e) { MUSIC.name = ''; MUSIC.audio = null; }
+}
 
 /* ---------------- 角色数据 ---------------- */
 const CHARS = {
@@ -817,6 +995,8 @@ function defaultSave() {
     best: {},            // levelId -> {stars, moves, seconds}
     unlock: 0,
     muted: false,
+    music: false,        // 背景音乐开关
+    musicName: '',       // 已导入的本地音乐名（实际文件在 IndexedDB）
     challengeOn: false,  // 挑战模式开关
     challenge: {},       // levelId -> true（挑战通关标记）
     custom: [],          // 自定义关卡 {id,name,hero,v,h,s,optimal,best}
@@ -832,6 +1012,8 @@ function migrateSave(d) {
     s.best = (d.best && typeof d.best === 'object') ? d.best : {};
     s.unlock = d.unlock | 0;
     s.muted = !!d.muted;
+    s.music = !!d.music;
+    s.musicName = typeof d.musicName === 'string' ? d.musicName : '';
     s.challengeOn = !!d.challengeOn;
     s.challenge = (d.challenge && typeof d.challenge === 'object') ? d.challenge : {};
     if (Array.isArray(d.custom)) s.custom = d.custom.filter(c => c && c.hero && c.v && c.h && c.s);
@@ -1902,6 +2084,41 @@ function wireButtons() {
   const refreshSoundBtn = () => { soundBtn.textContent = muted ? '🔇' : '🔊'; soundBtn.classList.toggle('off', muted); };
   soundBtn.onclick = () => { muted = !muted; save.muted = muted; persistSave(); refreshSoundBtn(); ensureAudio(); SFX.select(); };
   refreshSoundBtn();
+  // 背景音乐开关
+  const musicBtn = $('btn-music');
+  musicBtn.classList.toggle('off', !save.music);
+  MUSIC.on = !!save.music;
+  musicBtn.onclick = () => { ensureAudio(); setMusic(!MUSIC.on); if (MUSIC.on) toast(MUSIC.name ? `🎵 正在播放：${MUSIC.name}` : '🎵 内置古风配乐已开启'); };
+  // 本地音乐导入/清除
+  $('music-file').onchange = async e => {
+    const f = e.target.files && e.target.files[0];
+    if (!f) return;
+    try {
+      await idbPut('track', { blob: f, name: f.name });
+      MUSIC.name = f.name;
+      if (MUSIC.audio) { try { MUSIC.audio.pause(); URL.revokeObjectURL(MUSIC.audio.src); } catch (err) {} }
+      MUSIC.audio = new Audio(URL.createObjectURL(f));
+      MUSIC.audio.loop = true;
+      MUSIC.audio.volume = .55;
+      save.musicName = f.name;
+      persistSave();
+      $('music-msg').textContent = `已导入「${f.name}」并保存到本机`;
+      if (!MUSIC.on) setMusic(true); else { stopBGM(); startBGM(); }
+    } catch (err) {
+      $('music-msg').textContent = '导入失败：' + (err && err.message ? err.message : '存储不可用');
+    }
+    e.target.value = '';
+  };
+  $('btn-music-clear').onclick = async () => {
+    try { await idbDel('track'); } catch (e) {}
+    MUSIC.name = '';
+    if (MUSIC.audio) { try { MUSIC.audio.pause(); URL.revokeObjectURL(MUSIC.audio.src); } catch (e) {} }
+    MUSIC.audio = null;
+    save.musicName = '';
+    persistSave();
+    $('music-msg').textContent = '已恢复内置古风配乐';
+    if (MUSIC.on) { stopBGM(); startBGM(); }
+  };
   // 键盘
   window.addEventListener('keydown', e => {
     if (S && !$('screen-game').classList.contains('hidden')) {
@@ -1922,9 +2139,14 @@ function wireButtons() {
       }
     }
   });
-  // 首次交互激活音频（音效）
-  document.addEventListener('pointerdown', ensureAudio, { once: true });
-  window.addEventListener('keydown', ensureAudio, { once: true });
+  // 首次交互激活音频（音效 + 按需启动背景音乐）
+  document.addEventListener('pointerdown', () => { ensureAudio(); if (MUSIC.on) startBGM(); }, { once: true });
+  window.addEventListener('keydown', () => { ensureAudio(); if (MUSIC.on) startBGM(); }, { once: true });
+  // 切到后台暂停音乐，回来继续
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) stopBGM();
+    else if (MUSIC.on) startBGM();
+  });
   window.addEventListener('resize', () => {
     if (S && !$('screen-game').classList.contains('hidden')) buildBoard();
   });
@@ -1935,6 +2157,9 @@ function wireButtons() {
     SFX.select();
     $('save-io').value = exportSaveCode();
     $('save-msg').textContent = '';
+    $('music-msg').textContent = MUSIC.name
+      ? `当前背景音乐：本地文件「${MUSIC.name}」`
+      : '当前背景音乐：内置古风配乐' + (save.music ? '（已开启）' : '（未开启，点右上角 🎵 开启）');
     $('overlay-save').classList.remove('hidden');
   };
   $('btn-editor').onclick = () => { SFX.select(); $('overlay-editor').classList.remove('hidden'); edRender(); };
@@ -2012,6 +2237,10 @@ function wireButtons() {
 loadSave();
 wireButtons();
 edReset();
+loadCustomMusic().then(() => {
+  if (!MUSIC.name && save.musicName) MUSIC.name = save.musicName; // 兜底显示名
+  if (MUSIC.on && MUSIC.name && MUSIC.audio) { /* 实际播放等待首次交互 */ }
+});
 setScreen('menu');
 renderMenu();
 // Android（Capacitor）返回键：菜单→退出，游戏→回菜单，弹层→关闭
