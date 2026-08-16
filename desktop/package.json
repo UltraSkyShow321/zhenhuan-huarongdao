@@ -50,9 +50,6 @@
     "portable": {
       "artifactName": "ZhenHuan-HuaRongDao-Portable-${version}-${arch}.${ext}"
     },
-    "zip": {
-      "artifactName": "ZhenHuan-HuaRongDao-${version}-${arch}.${ext}"
-    },
     "mac": {
       "target": [
         "dmg",
