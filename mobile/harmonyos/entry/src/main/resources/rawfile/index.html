@@ -1752,6 +1752,7 @@ function edPlay() {
   if (!ED.valid) { edMsg('请先点「验证」', true); return; }
   const lv = ED.valid.layout;
   const name = $('ed-name').value.trim() || '我的关卡';
+  $('overlay-editor').classList.add('hidden'); // 试玩时关闭编辑器，避免弹层挡住游戏界面
   startCustomLevel({ id: 'tmp' + Date.now(), name, optimal: ED.valid.optimal, hero: lv.hero, v: lv.v, h: lv.h, s: lv.s });
 }
 function edSave() {

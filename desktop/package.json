@@ -1,7 +1,7 @@
 {
   "name": "zhenhuan-huarongdao-desktop",
   "productName": "深宫华容道",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "甄嬛传主题华容道桌面版",
   "author": "UltraSkyShow321",
   "license": "MIT",
@@ -18,11 +18,24 @@
     "appId": "com.zhenhuan.huarongdao",
     "productName": "深宫华容道",
     "artifactName": "ZhenHuan-HuaRongDao-${version}-${os}-${arch}.${ext}",
-    "directories": { "output": "dist" },
-    "files": ["main.js", "package.json"],
-    "extraResources": [{ "from": "../index.html", "to": "index.html" }],
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "../index.html",
+        "to": "index.html"
+      }
+    ],
     "win": {
-      "target": ["nsis", "portable"],
+      "target": [
+        "nsis",
+        "portable"
+      ],
       "icon": "../icons/icon-512.png"
     },
     "nsis": {
@@ -37,12 +50,17 @@
       "artifactName": "ZhenHuan-HuaRongDao-Portable-${version}-${arch}.${ext}"
     },
     "mac": {
-      "target": ["dmg", "zip"],
+      "target": [
+        "dmg",
+        "zip"
+      ],
       "icon": "../icons/icon-512.png",
       "category": "public.app-category.games"
     },
     "linux": {
-      "target": ["AppImage"],
+      "target": [
+        "AppImage"
+      ],
       "icon": "../icons/icon-512.png",
       "category": "Game"
     }
