@@ -107,6 +107,7 @@ jobs:
             artifacts/*.dmg
             artifacts/*.zip
             artifacts/*.AppImage
+            artifacts/*.deb
             artifacts/*.apk
             artifacts/SHA256SUMS.txt
           body: |
