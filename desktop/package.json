@@ -1,7 +1,7 @@
 {
   "name": "zhenhuan-huarongdao-desktop",
   "productName": "深宫华容道",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "甄嬛传主题华容道桌面版",
   "author": "UltraSkyShow321",
   "license": "MIT",
@@ -34,7 +34,8 @@
     "win": {
       "target": [
         "nsis",
-        "portable"
+        "portable",
+        "zip"
       ],
       "icon": "../icons/icon-512.png"
     },
@@ -48,6 +49,9 @@
     },
     "portable": {
       "artifactName": "ZhenHuan-HuaRongDao-Portable-${version}-${arch}.${ext}"
+    },
+    "zip": {
+      "artifactName": "ZhenHuan-HuaRongDao-${version}-${arch}.${ext}"
     },
     "mac": {
       "target": [
